@@ -112,7 +112,7 @@ const sortedScenes = sortScenesByDelta(scenesWithSpoilerFlag);
             } else {
               revealUrl += `season=${maxSeason}&episode=${maxEpisode}`;
             }
-            revealUrl += `&reveal=${revealList}`;
+            revealUrl += `&reveal=${revealList}#scene-${index}`;
 
             return (
               <>
@@ -137,7 +137,10 @@ const sortedScenes = sortScenesByDelta(scenesWithSpoilerFlag);
                 )}
 
                 {/* Scene card */}
-                <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow relative">
+                <div
+                  id={`scene-${index}`}
+                  class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow relative"
+                >
                   {/* Scene content */}
                   <div class:list={[shouldBlur && 'blur-md select-none pointer-events-none']}>
                     <div class="flex justify-between items-start mb-3">
