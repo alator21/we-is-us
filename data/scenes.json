@@ -5,21 +5,33 @@
       "delta": "0 days",
       "text": "The beginning of the story. Our protagonist starts their journey.",
       "images": ["/images/scene_001_01.jpg"],
-      "tags": ["episode:1", "location:Home", "character:Protagonist"]
+      "tags": ["season:1", "episode:1", "location:Home", "character:Protagonist"]
     },
     {
       "id": "b2e9d7f4-8a3c-4e1b-9f6d-2a5c8e7b4d9f",
       "delta": "5 days",
       "text": "Five days later, an unexpected encounter changes everything.",
       "images": ["/images/scene_002_01.jpg", "/images/scene_002_02.jpg"],
-      "tags": ["episode:1", "location:Cafe", "character:Protagonist", "character:Stranger"]
+      "tags": [
+        "season:1",
+        "episode:1",
+        "location:Cafe",
+        "character:Protagonist",
+        "character:Stranger"
+      ]
     },
     {
       "id": "c8d6a5b3-9e2f-4c7a-8d3b-5f1e9c6a4b2d",
       "delta": "-3 days",
       "text": "Flashback: Three days before the start. Events that set things in motion.",
       "images": ["/images/scene_003_01.jpg"],
-      "tags": ["episode:2", "location:Office", "character:Protagonist", "theme:Backstory"]
+      "tags": [
+        "season:1",
+        "episode:2",
+        "location:Office",
+        "character:Protagonist",
+        "theme:Backstory"
+      ]
     }
   ]
 }

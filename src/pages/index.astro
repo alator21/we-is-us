@@ -2,9 +2,16 @@
 // Load scene data from JSON file
 import scenesData from '../../data/scenes.json';
 import Navbar from '../components/Navbar.astro';
+import SpoilerFilter from '../components/SpoilerFilter.astro';
 import '../styles/global.css';
 
 const scenes = scenesData.scenes;
+
+// Helper function to extract episode/season from tags
+function getTagValue(tags: string[], key: string): string {
+  const tag = tags.find((t) => t.startsWith(`${key}:`));
+  return tag ? tag.split(':')[1] || '1' : '1';
+}
 ---
 
 <html lang="en">
@@ -14,6 +21,7 @@ const scenes = scenesData.scenes;
     <title>We Is Us - Timeline Viewer</title>
   </head>
   <body class="min-h-screen bg-gray-50">
+    <SpoilerFilter />
     <Navbar />
 
     <!-- Main Content -->
@@ -27,19 +35,29 @@ const scenes = scenesData.scenes;
       <!-- Scenes List -->
       <div class="flex flex-col gap-6">
         {
-          scenes.map((scene) => (
-            <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-              <h3 class="text-xl font-semibold text-gray-900 mb-3">Delta: {scene.delta}</h3>
-              <p class="text-gray-700 mb-4">{scene.text}</p>
-              <div class="flex flex-wrap gap-2">
-                {scene.tags.map((tag) => (
-                  <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
-                    {tag}
-                  </span>
-                ))}
+          scenes.map((scene) => {
+            const episode = getTagValue(scene.tags, 'episode');
+            const season = getTagValue(scene.tags, 'season');
+
+            return (
+              <div
+                class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+                data-scene
+                data-episode={episode}
+                data-season={season}
+              >
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Delta: {scene.delta}</h3>
+                <p class="text-gray-700 mb-4">{scene.text}</p>
+                <div class="flex flex-wrap gap-2">
+                  {scene.tags.map((tag) => (
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         }
       </div>
     </main>

@@ -78,6 +78,7 @@ Tags provide metadata with strict validation enforced by the schema:
 /src
   /components
     Navbar.astro       # Navigation bar component
+    SpoilerFilter.astro # Spoiler filter modal (season/episode selection)
   /pages
     index.astro        # Main timeline viewer page
   /styles
@@ -133,6 +134,9 @@ bun install
 # Validate data against schema
 bun run validate
 
+# Type check the project
+bun run typecheck
+
 # Format code with Prettier
 bun run format
 
@@ -152,6 +156,16 @@ bun run preview
 The dev server runs at http://localhost:4321 by default.
 
 **Note:** The build command automatically runs validation first. If the data doesn't match the schema, the build will fail.
+
+## Features
+
+### Spoiler Protection
+
+- On first visit, users are prompted to select how far they've watched (season/episode)
+- Preference is stored in localStorage
+- Only scenes up to the user's progress are displayed
+- Users can check "I've seen everything" to bypass filtering
+- Filter automatically applies on subsequent visits
 
 ## Key Implementation Notes
 
