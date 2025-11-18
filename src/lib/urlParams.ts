@@ -1,36 +1,51 @@
 import { z } from 'zod';
+import { SEASONS, isValidEpisodeForSeason, ALL_EPISODES } from './sceneMetadata';
 
 // Schema for spoiler filter URL parameters
-const filterParamsSchema = z.object({
-  season: z
-    .string()
-    .nullable()
-    .transform((val) => (val ? parseInt(val, 10) : undefined))
-    .refine((val) => val === undefined || (val > 0 && Number.isInteger(val)), {
-      message: 'Season must be a positive integer',
-    }),
-  episode: z
-    .string()
-    .nullable()
-    .transform((val) => (val ? parseInt(val, 10) : undefined))
-    .refine((val) => val === undefined || (val > 0 && Number.isInteger(val)), {
-      message: 'Episode must be a positive integer',
-    }),
-  showAll: z
-    .string()
-    .nullable()
-    .transform((val) => val === 'true'),
-  reveal: z
-    .string()
-    .nullable()
-    .transform((val) => {
-      if (!val) return [];
-      return val
-        .split(',')
-        .map((idx) => parseInt(idx, 10))
-        .filter((idx) => !isNaN(idx) && idx >= 0);
-    }),
-});
+const filterParamsSchema = z
+  .object({
+    season: z
+      .string()
+      .nullable()
+      .transform((val) => (val ? parseInt(val, 10) : undefined))
+      .refine((val) => val === undefined || SEASONS.includes(val), {
+        message: `Season must be one of: ${SEASONS.join(', ')}`,
+      }),
+    episode: z
+      .string()
+      .nullable()
+      .transform((val) => (val ? parseInt(val, 10) : undefined))
+      .refine((val) => val === undefined || ALL_EPISODES.includes(val), {
+        message: `Episode must be one of: ${ALL_EPISODES.join(', ')}`,
+      }),
+    showAll: z
+      .string()
+      .nullable()
+      .transform((val) => val === 'true'),
+    reveal: z
+      .string()
+      .nullable()
+      .transform((val) => {
+        if (!val) return [];
+        return val
+          .split(',')
+          .map((idx) => parseInt(idx, 10))
+          .filter((idx) => !isNaN(idx) && idx >= 0);
+      }),
+  })
+  .refine(
+    (data) => {
+      // If both season and episode are provided, validate that episode exists for that season
+      if (data.season !== undefined && data.episode !== undefined) {
+        return isValidEpisodeForSeason(data.season, data.episode);
+      }
+      return true;
+    },
+    {
+      message: 'Episode is not valid for the selected season',
+      path: ['episode'],
+    }
+  );
 
 export type FilterParams = z.infer<typeof filterParamsSchema>;
 
