@@ -1,0 +1,67 @@
+---
+// Load scene data from JSON file
+import scenesData from '../../data/scenes.json';
+const scenes = scenesData.scenes;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>We Is Us - Timeline Viewer</title>
+  </head>
+  <body>
+    <h1>We Is Us - Timeline Viewer</h1>
+    <p>Visualizing the non-linear timeline of the show</p>
+
+    <h2>Scenes</h2>
+    <div class="scenes">
+      {scenes.map((scene) => (
+        <div class="scene">
+          <h3>Delta: {scene.delta}</h3>
+          <p>{scene.text}</p>
+          <div class="tags">
+            {scene.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .scenes {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .scene {
+        border: 1px solid #ccc;
+        padding: 1rem;
+        border-radius: 8px;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .tag {
+        background: #e0e0e0;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+      }
+    </style>
+  </body>
+</html>
