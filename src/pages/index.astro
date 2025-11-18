@@ -26,6 +26,9 @@ const showAll = filterParams.showAll;
 const maxSeason = showAll ? 999 : filterParams.season || 0;
 const maxEpisode = showAll ? 999 : filterParams.episode || 0;
 
+// Get list of revealed scene indices from validated params
+const revealedIndices = new Set(filterParams.reveal || []);
+
 // Mark scenes as spoilers based on user's progress
 const scenesWithSpoilerFlag = scenesData.scenes.map((scene) => {
   if (showAll) {
@@ -91,6 +94,26 @@ const sortedScenes = sortScenesByDelta(scenesWithSpoilerFlag);
               index > 0 ? calculateTimeDiff(sortedScenes[index - 1]!.delta, scene.delta) : null;
             const isFirstScene = index === 0;
 
+            // Check if this specific scene is revealed
+            const isRevealed = revealedIndices.has(index);
+            const shouldBlur = scene.isSpoiler && !isRevealed;
+
+            // Build URL for revealing this scene
+            const newRevealSet = new Set(revealedIndices);
+            newRevealSet.add(index);
+            const revealList = Array.from(newRevealSet)
+              .sort((a, b) => a - b)
+              .join(',');
+
+            // Manually construct URL with all current params plus reveal
+            let revealUrl = '/?';
+            if (showAll) {
+              revealUrl += 'showAll=true';
+            } else {
+              revealUrl += `season=${maxSeason}&episode=${maxEpisode}`;
+            }
+            revealUrl += `&reveal=${revealList}`;
+
             return (
               <>
                 {/* Time progression indicator */}
@@ -115,22 +138,8 @@ const sortedScenes = sortScenesByDelta(scenesWithSpoilerFlag);
 
                 {/* Scene card */}
                 <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow relative">
-                  {/* Spoiler blur overlay */}
-                  {scene.isSpoiler && (
-                    <div class="absolute inset-0 bg-gray-900 bg-opacity-60 backdrop-blur-sm rounded-lg flex items-center justify-center">
-                      <div class="text-center text-white px-6">
-                        <div class="text-4xl mb-2">🔒</div>
-                        <p class="font-semibold text-lg mb-1">Spoiler Warning</p>
-                        <p class="text-sm opacity-90">
-                          Content from Season {parseInt(getTagValue(scene.tags, 'season'))}, Episode{' '}
-                          {parseInt(getTagValue(scene.tags, 'episode'))}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-
                   {/* Scene content */}
-                  <div class:list={[scene.isSpoiler && 'blur-md select-none']}>
+                  <div class:list={[shouldBlur && 'blur-md select-none pointer-events-none']}>
                     <div class="flex justify-between items-start mb-3">
                       <h3 class="text-xl font-semibold text-gray-900">{scene.delta}</h3>
                       <span class="text-sm text-gray-500 font-mono">#{index + 1}</span>
@@ -144,6 +153,28 @@ const sortedScenes = sortScenesByDelta(scenesWithSpoilerFlag);
                       ))}
                     </div>
                   </div>
+
+                  {/* Spoiler blur overlay */}
+                  {shouldBlur && (
+                    <div class="absolute inset-0 bg-gray-900 bg-opacity-60 backdrop-blur-sm rounded-lg flex flex-col items-center justify-center z-10">
+                      <div class="text-center text-white px-6 mb-4">
+                        <div class="text-4xl mb-2">🔒</div>
+                        <p class="font-semibold text-lg mb-1">Spoiler Warning</p>
+                        <p class="text-sm opacity-90">
+                          Content from Season {parseInt(getTagValue(scene.tags, 'season'))}, Episode{' '}
+                          {parseInt(getTagValue(scene.tags, 'episode'))}
+                        </p>
+                      </div>
+                      {/* Reveal button */}
+                      <a
+                        href={revealUrl}
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-white text-gray-900 rounded-md hover:bg-gray-100 transition-colors font-medium text-sm cursor-pointer"
+                      >
+                        <span class="text-lg">👁️</span>
+                        Reveal This Scene
+                      </a>
+                    </div>
+                  )}
                 </div>
               </>
             );

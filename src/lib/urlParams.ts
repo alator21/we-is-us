@@ -20,6 +20,16 @@ const filterParamsSchema = z.object({
     .string()
     .nullable()
     .transform((val) => val === 'true'),
+  reveal: z
+    .string()
+    .nullable()
+    .transform((val) => {
+      if (!val) return [];
+      return val
+        .split(',')
+        .map((idx) => parseInt(idx, 10))
+        .filter((idx) => !isNaN(idx) && idx >= 0);
+    }),
 });
 
 export type FilterParams = z.infer<typeof filterParamsSchema>;
@@ -32,6 +42,7 @@ export function parseFilterParams(searchParams: URLSearchParams): FilterParams {
     season: searchParams.get('season'),
     episode: searchParams.get('episode'),
     showAll: searchParams.get('showAll'),
+    reveal: searchParams.get('reveal'),
   };
 
   return filterParamsSchema.parse(params);
