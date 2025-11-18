@@ -4,6 +4,7 @@ import scenesData from '../../data/scenes.json';
 import Navbar from '../components/Navbar.astro';
 import { parseFilterParams, hasFilterParams } from '../lib/urlParams';
 import { sortScenesByDelta, calculateTimeDiff } from '../lib/deltaParser';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 // Helper function to extract episode/season from tags
@@ -55,6 +56,7 @@ const sortedScenes = sortScenesByDelta(scenesWithSpoilerFlag);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>We Is Us - Timeline Viewer</title>
+    <ClientRouter />
   </head>
   <body class="min-h-screen bg-gray-50">
     <Navbar />

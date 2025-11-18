@@ -1,5 +1,6 @@
 ---
 import Navbar from '../components/Navbar.astro';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import { SEASONS, ALL_EPISODES } from '../lib/sceneMetadata';
 
@@ -12,6 +13,7 @@ const episodes = ALL_EPISODES;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Spoiler Filter - We Is Us</title>
+    <ClientRouter />
   </head>
   <body class="min-h-screen bg-gray-50">
     <Navbar />
