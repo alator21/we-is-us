@@ -38,6 +38,7 @@ Tags provide metadata with strict validation enforced by the schema:
 
 ### Frontend
 - **Framework**: Astro (static site generator)
+- **Styling**: Tailwind CSS v4
 - **Runtime**: Bun (package manager and runtime)
 - **Build**: Static site - reads `/data/scenes.json` at build time
 - **Hosting**: Static hosting (GitHub Pages, Netlify, Vercel)
@@ -68,7 +69,9 @@ Tags provide metadata with strict validation enforced by the schema:
 /src
   /pages
     index.astro        # Main timeline viewer page
-astro.config.mjs       # Astro configuration
+  /styles
+    global.css         # Tailwind CSS imports
+astro.config.mjs       # Astro configuration (includes Tailwind)
 package.json           # Project dependencies and scripts
 ```
 
@@ -134,6 +137,7 @@ The dev server runs at http://localhost:4321 by default.
 - Multiple images per scene supported via array
 - **Static site**: Data is loaded at build time from `/data/scenes.json`
 - **Image paths**: Reference as `/images/filename.jpg` (served from `/public/images/`)
+- **Styling**: Use Tailwind CSS utility classes for all styling (imported via `/src/styles/global.css`)
 - Data is stored in version-controlled files, making it easy for contributors to submit PRs with corrections
 - Data files should be formatted for readability (pretty-printed JSON with 2-space indentation)
 - Images should be optimized for web (consider file size)
