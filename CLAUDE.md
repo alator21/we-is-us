@@ -76,6 +76,8 @@ Tags provide metadata with strict validation enforced by the schema:
 /scripts
   validate-schema.ts   # Schema validation script
 /src
+  /components
+    Navbar.astro       # Navigation bar component
   /pages
     index.astro        # Main timeline viewer page
   /styles
