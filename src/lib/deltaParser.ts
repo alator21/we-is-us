@@ -1,21 +1,13 @@
 /**
- * Parse delta string (e.g., "5 days", "-3 hours") into total hours
+ * Parse delta string into total hours
+ * Supports single units: "5 days", "-3 hours"
+ * Supports combined units: "7 days 17 hours", "2 weeks 3 days"
  * Returns null if delta is null/undefined
  */
 export function parseDeltaToHours(delta: string | null | undefined): number | null {
   if (delta === null || delta === undefined) {
     return null;
   }
-
-  const match = delta.match(/^(-?\d+)\s+(hours?|days?|weeks?|months?|years?)$/i);
-
-  if (!match) {
-    console.warn(`Unable to parse delta: "${delta}"`);
-    return null;
-  }
-
-  const value = parseInt(match[1]!, 10);
-  const unit = match[2]!.toLowerCase();
 
   // Convert to hours for consistent comparison
   const hoursMap: Record<string, number> = {
@@ -31,7 +23,24 @@ export function parseDeltaToHours(delta: string | null | undefined): number | nu
     years: 24 * 365,
   };
 
-  return value * (hoursMap[unit] || 0);
+  // Find all number+unit pairs
+  const pattern = /(-?\d+)\s+(hours?|days?|weeks?|months?|years?)/gi;
+  const matches = Array.from(delta.matchAll(pattern));
+
+  if (matches.length === 0) {
+    console.warn(`Unable to parse delta: "${delta}"`);
+    return null;
+  }
+
+  // Sum up all components
+  let totalHours = 0;
+  for (const match of matches) {
+    const value = parseInt(match[1]!, 10);
+    const unit = match[2]!.toLowerCase();
+    totalHours += value * (hoursMap[unit] || 0);
+  }
+
+  return totalHours;
 }
 
 /**

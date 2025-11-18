@@ -9,15 +9,17 @@
       "items": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-            "description": "UUID v4 identifier for the scene"
-          },
           "delta": {
-            "type": "string",
-            "pattern": "^-?\\d+\\s+(days?|hours?|weeks?|months?|years?)$",
-            "description": "Time offset from time 0 (e.g., '5 days', '-2 hours')"
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^-?\\d+\\s+(days?|hours?|weeks?|months?|years?)(\\s+\\d+\\s+(days?|hours?|weeks?|months?|years?))*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Time offset from time 0. Supports single units (e.g., '5 days', '-2 hours') or combined units (e.g., '7 days 17 hours', '2 weeks 3 days'). Can be null if exact time is unknown - scene will be placed by its position in the array."
           },
           "text": {
             "type": "string",
@@ -41,7 +43,7 @@
             "description": "Array of tags in key:value format. Allowed keys: episode (number), season (number), character (capitalized), location (capitalized), theme (capitalized), time (capitalized)"
           }
         },
-        "required": ["id", "delta", "text", "images", "tags"],
+        "required": ["text", "images", "tags"],
         "additionalProperties": false
       }
     }
