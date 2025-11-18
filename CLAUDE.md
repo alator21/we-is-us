@@ -43,14 +43,15 @@ Tags provide metadata with strict validation enforced by the schema:
 
 ### Frontend
 
-- **Framework**: Astro (static site generator)
+- **Framework**: Astro (with SSR mode enabled)
+- **Adapter**: @astrojs/node (Node.js standalone server)
 - **Styling**: Tailwind CSS v4
 - **Validation**: Zod (type-safe schema validation for URL params)
 - **Code formatting**: Prettier (with Astro plugin)
 - **Runtime**: Bun (package manager and runtime)
-- **Build**: Static site - reads `/data/scenes.json` at build time
-- **Hosting**: Static hosting (GitHub Pages, Netlify, Vercel)
-- **Deployment**: Push to repo triggers automatic rebuild and deploy
+- **Rendering**: Server-side rendering (SSR) for dynamic URL parameter handling
+- **Hosting**: Requires Node.js hosting (Vercel, Netlify Functions, Railway, etc.)
+- **Deployment**: Build creates a standalone Node.js server
 
 ### Data Updates
 
@@ -79,11 +80,12 @@ Tags provide metadata with strict validation enforced by the schema:
 /src
   /components
     Navbar.astro       # Navigation bar component
-    SpoilerFilter.astro # Spoiler filter modal (season/episode selection)
+    SpoilerFilter.astro # (Legacy - not used, can be removed)
   /lib
     urlParams.ts       # Type-safe URL parameter parsing with Zod
   /pages
-    index.astro        # Main timeline viewer page
+    index.astro        # Main timeline viewer page (requires filter params)
+    filter.astro       # Spoiler filter page (landing page)
   /styles
     global.css         # Tailwind CSS imports
 .prettierrc            # Prettier configuration
@@ -146,31 +148,36 @@ bun run format
 # Check if code is formatted correctly
 bun run format:check
 
-# Run development server
+# Run development server (SSR mode)
 bun run dev
 
-# Build static site (validates first, then builds)
+# Build for production (validates first, then builds SSR server)
 bun run build
 
-# Preview production build
+# Preview production build (runs the built Node.js server)
 bun run preview
 ```
 
 The dev server runs at http://localhost:4321 by default.
 
-**Note:** The build command automatically runs validation first. If the data doesn't match the schema, the build will fail.
+**Note:**
+
+- The build command automatically runs validation first. If the data doesn't match the schema, the build will fail.
+- The project uses **SSR (Server-Side Rendering)** mode to handle dynamic URL parameters for spoiler filtering
+- The build output is a standalone Node.js server in the `dist/` directory
 
 ## Features
 
 ### Spoiler Protection
 
-- On first visit (no URL params), users see a modal to select how far they've watched (season/episode)
-- Form submits with GET method, adding filter parameters to the URL
-- **No client-side JavaScript required** - filtering happens server-side during build/render
+- Users land on `/filter` - a dedicated page for selecting their viewing progress
+- Form on `/filter` submits to `/` (timeline page) with filter parameters
+- Timeline page (`/`) requires filter parameters - redirects to `/filter` if missing
+- **No client-side JavaScript required** - pure HTML forms and server-side routing
 - Scenes are filtered based on URL query parameters (`?season=1&episode=5` or `?showAll=true`)
 - **Type-safe URL params**: Uses Zod schemas (`/src/lib/urlParams.ts`) for validation and type safety
 - Users can check "I've seen everything" to bypass filtering
-- "Change Filter" button allows users to reset preferences and select different settings
+- "Change Filter" button on timeline page redirects to `/filter`
 - Filter status is displayed in a banner showing current filter settings
 
 ## Key Implementation Notes
@@ -180,7 +187,8 @@ The dev server runs at http://localhost:4321 by default.
 - Negative deltas represent flashbacks (events before time 0)
 - Tags are flexible and can be added/modified without schema changes
 - Multiple images per scene supported via array
-- **Static site**: Data is loaded at build time from `/data/scenes.json`
+- **SSR mode**: Site uses server-side rendering to handle URL parameters dynamically
+- **Data loading**: Scene data is loaded from `/data/scenes.json` at request time
 - **Image paths**: Reference as `/images/filename.jpg` (served from `/public/images/`)
 - **Styling**: Use Tailwind CSS utility classes for all styling (imported via `/src/styles/global.css`)
 - **Code formatting**: Run `bun run format` before committing to ensure consistent code style
@@ -189,4 +197,5 @@ The dev server runs at http://localhost:4321 by default.
 - Data is stored in version-controlled files, making it easy for contributors to submit PRs with corrections
 - Data files should be formatted for readability (Prettier handles JSON formatting automatically)
 - Images should be optimized for web (consider file size)
-- **Rebuilds**: Any change to data or code requires rebuild to see updates on live site
+- **Data updates**: In SSR mode, changes to `/data/scenes.json` require server restart to take effect (no rebuild needed)
+- **Code changes**: Changes to `.astro` files or logic require rebuild and server restart
