@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Core Concept
 
 The show presents scenes out of chronological order. Each scene has a timestamp (or delta from time 0) that represents when it occurs in the actual story timeline. This application:
+
 - Stores scene records with their timestamp deltas in a human-readable file format (committed to the repository)
 - Displays scenes in various views (chronological, as-aired, timeline visualization)
 - Helps viewers understand the non-linear narrative structure
@@ -17,7 +18,9 @@ The show presents scenes out of chronological order. Each scene has a timestamp 
 ## Data Model
 
 ### Scene Record Structure
+
 Each scene is a flexible object with:
+
 - **id**: UUID (universally unique identifier) for the scene
 - **delta**: Time offset from time 0 (e.g., "5 days", "-2 hours", "3 weeks")
 - **text**: Descriptive text accompanying the scene
@@ -25,7 +28,9 @@ Each scene is a flexible object with:
 - **tags**: Array of key:value tags (e.g., "episode:1", "location:Hospital", "character:John")
 
 ### Tag System
+
 Tags provide metadata with strict validation enforced by the schema:
+
 - **Format**: `"key:value"` (e.g., `"episode:1"`, `"character:Sarah"`)
 - **Allowed tag keys**: `episode`, `season`, `character`, `location`, `theme`, `time`
 - **Validation rules**:
@@ -37,20 +42,24 @@ Tags provide metadata with strict validation enforced by the schema:
 ## Technology Stack
 
 ### Frontend
+
 - **Framework**: Astro (static site generator)
 - **Styling**: Tailwind CSS v4
+- **Code formatting**: Prettier (with Astro plugin)
 - **Runtime**: Bun (package manager and runtime)
 - **Build**: Static site - reads `/data/scenes.json` at build time
 - **Hosting**: Static hosting (GitHub Pages, Netlify, Vercel)
 - **Deployment**: Push to repo triggers automatic rebuild and deploy
 
 ### Data Updates
+
 - Edit `/data/scenes.json` directly (manual or with local tools)
 - Commit and push changes
 - Hosting platform automatically rebuilds and deploys
 - No traditional backend needed for basic functionality
 
 ### Database
+
 - **Type**: File-based, human-readable data stored in repository
 - **Format**: JSON (recommended for structured data with easy parsing and GitHub diff viewing)
 - **Location**: Data files stored in `/data` directory
@@ -71,12 +80,16 @@ Tags provide metadata with strict validation enforced by the schema:
     index.astro        # Main timeline viewer page
   /styles
     global.css         # Tailwind CSS imports
+.prettierrc            # Prettier configuration
+.prettierignore        # Prettier ignore patterns
 astro.config.mjs       # Astro configuration (includes Tailwind)
 package.json           # Project dependencies and scripts
 ```
 
 ### Data File Format
+
 See `/data/scenes.json` for example structure. Each scene includes:
+
 - UUID (must be valid UUID v4 format)
 - Delta (time offset from time 0, supports negative values for flashbacks)
 - Text description
@@ -84,7 +97,9 @@ See `/data/scenes.json` for example structure. Each scene includes:
 - Array of tags for flexible categorization (must be `key:value` format)
 
 ### Schema Validation
+
 The data structure is enforced by JSON Schema (`/data/scenes.schema.json`):
+
 - **UUID format**: Must be valid UUID v4
 - **Delta format**: Must match pattern like "5 days", "-2 hours", "3 weeks"
 - **Image paths**: Must start with `/images/` and have valid extensions (.jpg, .jpeg, .png, .gif, .webp)
@@ -96,7 +111,9 @@ The data structure is enforced by JSON Schema (`/data/scenes.schema.json`):
 - Validation runs automatically before every build
 
 ### Data Management
+
 Scene records are managed by editing `/data/scenes.json`:
+
 - Edit JSON file directly or use local tools
 - UUIDs should be generated when creating new scenes (use UUID v4)
 - Run `bun run validate` to check data against schema before committing
@@ -113,6 +130,12 @@ bun install
 
 # Validate data against schema
 bun run validate
+
+# Format code with Prettier
+bun run format
+
+# Check if code is formatted correctly
+bun run format:check
 
 # Run development server
 bun run dev
@@ -138,7 +161,8 @@ The dev server runs at http://localhost:4321 by default.
 - **Static site**: Data is loaded at build time from `/data/scenes.json`
 - **Image paths**: Reference as `/images/filename.jpg` (served from `/public/images/`)
 - **Styling**: Use Tailwind CSS utility classes for all styling (imported via `/src/styles/global.css`)
+- **Code formatting**: Run `bun run format` before committing to ensure consistent code style
 - Data is stored in version-controlled files, making it easy for contributors to submit PRs with corrections
-- Data files should be formatted for readability (pretty-printed JSON with 2-space indentation)
+- Data files should be formatted for readability (Prettier handles JSON formatting automatically)
 - Images should be optimized for web (consider file size)
 - **Rebuilds**: Any change to data or code requires rebuild to see updates on live site

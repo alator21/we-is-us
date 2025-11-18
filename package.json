@@ -7,11 +7,15 @@
     "dev": "astro dev",
     "build": "bun run validate && astro build",
     "preview": "astro preview",
-    "validate": "bun run scripts/validate-schema.ts"
+    "validate": "bun run scripts/validate-schema.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "ajv": "^8.17.1"
+    "ajv": "^8.17.1",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1"
   },
   "peerDependencies": {
     "typescript": "^5"
