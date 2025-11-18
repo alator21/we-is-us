@@ -117,11 +117,11 @@ const sortedScenes = sortScenesByDelta(scenesWithSpoilerFlag);
             return (
               <>
                 {/* Time progression indicator */}
-                {!isFirstScene && timeDiff && (
+                {!isFirstScene && (
                   <div class="flex items-center justify-center py-4">
                     <div class="flex-1 border-t-2 border-gray-300" />
                     <div class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
-                      ⏱️ {timeDiff}
+                      {timeDiff ? `⏱️ ${timeDiff}` : '⏱️ some time later'}
                     </div>
                     <div class="flex-1 border-t-2 border-gray-300" />
                   </div>
@@ -131,7 +131,7 @@ const sortedScenes = sortScenesByDelta(scenesWithSpoilerFlag);
                 {isFirstScene && (
                   <div class="flex items-center justify-center py-4 mb-2">
                     <div class="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
-                      📍 Timeline Start ({scene.delta})
+                      📍 Timeline Start {scene.delta && `(${scene.delta})`}
                     </div>
                   </div>
                 )}
@@ -141,7 +141,13 @@ const sortedScenes = sortScenesByDelta(scenesWithSpoilerFlag);
                   {/* Scene content */}
                   <div class:list={[shouldBlur && 'blur-md select-none pointer-events-none']}>
                     <div class="flex justify-between items-start mb-3">
-                      <h3 class="text-xl font-semibold text-gray-900">{scene.delta}</h3>
+                      <h3 class="text-xl font-semibold text-gray-900">
+                        {scene.delta ? (
+                          scene.delta
+                        ) : (
+                          <span class="text-gray-400 italic">Unknown time</span>
+                        )}
+                      </h3>
                       <span class="text-sm text-gray-500 font-mono">#{index + 1}</span>
                     </div>
 
