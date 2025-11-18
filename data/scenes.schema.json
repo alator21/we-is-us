@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Scene Timeline Data",
+  "description": "Schema for the non-linear timeline scene data",
+  "type": "object",
+  "properties": {
+    "scenes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "description": "UUID v4 identifier for the scene"
+          },
+          "delta": {
+            "type": "string",
+            "pattern": "^-?\\d+\\s+(days?|hours?|weeks?|months?|years?)$",
+            "description": "Time offset from time 0 (e.g., '5 days', '-2 hours')"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Descriptive text accompanying the scene"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^/images/.+\\.(jpg|jpeg|png|gif|webp)$"
+            },
+            "description": "Array of image paths (must start with /images/)"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(episode|season|character|location|theme|time):\\s*[A-Z][a-zA-Z0-9\\s-]*$|^episode:\\s*\\d+$|^season:\\s*\\d+$"
+            },
+            "description": "Array of tags in key:value format. Allowed keys: episode (number), season (number), character (capitalized), location (capitalized), theme (capitalized), time (capitalized)"
+          }
+        },
+        "required": ["id", "delta", "text", "images", "tags"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["scenes"],
+  "additionalProperties": false
+}

@@ -9,8 +9,8 @@
       ],
       "tags": [
         "episode:1",
-        "location:home",
-        "character:protagonist"
+        "location:Home",
+        "character:Protagonist"
       ]
     },
     {
@@ -23,9 +23,9 @@
       ],
       "tags": [
         "episode:1",
-        "location:cafe",
-        "character:protagonist",
-        "character:stranger"
+        "location:Cafe",
+        "character:Protagonist",
+        "character:Stranger"
       ]
     },
     {
@@ -37,9 +37,9 @@
       ],
       "tags": [
         "episode:2",
-        "location:office",
-        "character:protagonist",
-        "theme:backstory"
+        "location:Office",
+        "character:Protagonist",
+        "theme:Backstory"
       ]
     }
   ]

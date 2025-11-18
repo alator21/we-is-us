@@ -5,11 +5,13 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
+    "build": "bun run validate && astro build",
+    "preview": "astro preview",
+    "validate": "bun run scripts/validate-schema.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "ajv": "^8.17.1"
   },
   "peerDependencies": {
     "typescript": "^5"
