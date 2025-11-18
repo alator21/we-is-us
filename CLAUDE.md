@@ -45,6 +45,7 @@ Tags provide metadata with strict validation enforced by the schema:
 
 - **Framework**: Astro (static site generator)
 - **Styling**: Tailwind CSS v4
+- **Validation**: Zod (type-safe schema validation for URL params)
 - **Code formatting**: Prettier (with Astro plugin)
 - **Runtime**: Bun (package manager and runtime)
 - **Build**: Static site - reads `/data/scenes.json` at build time
@@ -79,6 +80,8 @@ Tags provide metadata with strict validation enforced by the schema:
   /components
     Navbar.astro       # Navigation bar component
     SpoilerFilter.astro # Spoiler filter modal (season/episode selection)
+  /lib
+    urlParams.ts       # Type-safe URL parameter parsing with Zod
   /pages
     index.astro        # Main timeline viewer page
   /styles
@@ -161,11 +164,14 @@ The dev server runs at http://localhost:4321 by default.
 
 ### Spoiler Protection
 
-- On first visit, users are prompted to select how far they've watched (season/episode)
-- Preference is stored in localStorage
-- Only scenes up to the user's progress are displayed
+- On first visit (no URL params), users see a modal to select how far they've watched (season/episode)
+- Form submits with GET method, adding filter parameters to the URL
+- **No client-side JavaScript required** - filtering happens server-side during build/render
+- Scenes are filtered based on URL query parameters (`?season=1&episode=5` or `?showAll=true`)
+- **Type-safe URL params**: Uses Zod schemas (`/src/lib/urlParams.ts`) for validation and type safety
 - Users can check "I've seen everything" to bypass filtering
-- Filter automatically applies on subsequent visits
+- "Change Filter" button allows users to reset preferences and select different settings
+- Filter status is displayed in a banner showing current filter settings
 
 ## Key Implementation Notes
 
@@ -178,6 +184,8 @@ The dev server runs at http://localhost:4321 by default.
 - **Image paths**: Reference as `/images/filename.jpg` (served from `/public/images/`)
 - **Styling**: Use Tailwind CSS utility classes for all styling (imported via `/src/styles/global.css`)
 - **Code formatting**: Run `bun run format` before committing to ensure consistent code style
+- **No client-side JavaScript**: The site works entirely without JavaScript. Spoiler filtering uses URL parameters and server-side rendering
+- **URL param validation**: Use Zod schemas in `/src/lib/urlParams.ts` for type-safe URL parameter parsing and validation
 - Data is stored in version-controlled files, making it easy for contributors to submit PRs with corrections
 - Data files should be formatted for readability (Prettier handles JSON formatting automatically)
 - Images should be optimized for web (consider file size)
