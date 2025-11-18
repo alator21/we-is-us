@@ -1,13 +1,10 @@
 <!-- Spoiler Filter Modal -->
-<div
-  id="spoiler-filter"
-  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
->
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
   <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 p-6">
     <h2 class="text-2xl font-bold text-gray-900 mb-4">Welcome to We Is Us Timeline</h2>
     <p class="text-gray-600 mb-6">To avoid spoilers, please tell us how far you've watched:</p>
 
-    <form id="spoiler-form" class="space-y-4">
+    <form method="GET" action="/" class="space-y-4">
       <div>
         <label for="season" class="block text-sm font-medium text-gray-700 mb-2"> Season </label>
         <select
@@ -43,12 +40,13 @@
 
       <div class="flex items-center">
         <input
-          id="show-all"
-          name="show-all"
+          id="showAll"
+          name="showAll"
           type="checkbox"
+          value="true"
           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
         />
-        <label for="show-all" class="ml-2 block text-sm text-gray-700">
+        <label for="showAll" class="ml-2 block text-sm text-gray-700">
           I've seen everything - show me all scenes
         </label>
       </div>
@@ -64,66 +62,3 @@
     </form>
   </div>
 </div>
-
-<script>
-  // Check if user has already set their preference
-  const hasPreference = localStorage.getItem('spoiler-preference');
-  const filterElement = document.getElementById('spoiler-filter');
-
-  if (hasPreference) {
-    // Hide the filter if preference exists
-    filterElement?.classList.add('hidden');
-    applyFilter();
-  }
-
-  // Handle form submission
-  const form = document.getElementById('spoiler-form');
-  const showAllCheckbox = document.getElementById('show-all') as HTMLInputElement;
-
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    const season = formData.get('season');
-    const episode = formData.get('episode');
-    const showAll = showAllCheckbox?.checked;
-
-    const preference = {
-      season: showAll ? 999 : parseInt(season as string),
-      episode: showAll ? 999 : parseInt(episode as string),
-      showAll: showAll,
-    };
-
-    localStorage.setItem('spoiler-preference', JSON.stringify(preference));
-    filterElement?.classList.add('hidden');
-    applyFilter();
-  });
-
-  function applyFilter() {
-    const preferenceStr = localStorage.getItem('spoiler-preference');
-    if (!preferenceStr) return;
-
-    const preference = JSON.parse(preferenceStr);
-
-    // Get all scene cards
-    const scenes = document.querySelectorAll('[data-scene]');
-
-    scenes.forEach((scene) => {
-      const sceneElement = scene as HTMLElement;
-      const sceneSeason = parseInt(sceneElement.dataset.season || '1');
-      const sceneEpisode = parseInt(sceneElement.dataset.episode || '1');
-
-      // Show if user's progress is >= scene's season/episode
-      if (preference.showAll) {
-        sceneElement.style.display = '';
-      } else if (
-        sceneSeason < preference.season ||
-        (sceneSeason === preference.season && sceneEpisode <= preference.episode)
-      ) {
-        sceneElement.style.display = '';
-      } else {
-        sceneElement.style.display = 'none';
-      }
-    });
-  }
-</script>
