@@ -2,7 +2,7 @@
 import Navbar from '../components/Navbar.astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
-import { SEASONS, ALL_EPISODES } from '../lib/sceneMetadata';
+import { SEASONS, ALL_EPISODES } from '../lib/eventMetadata';
 
 const seasons = SEASONS;
 const episodes = ALL_EPISODES;
@@ -59,7 +59,7 @@ const episodes = ALL_EPISODES;
               class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
             />
             <label for="showAll" class="ml-2 block text-sm text-gray-700">
-              I've seen everything - show me all scenes
+              I've seen everything - show me all events
             </label>
           </div>
 

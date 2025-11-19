@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { SEASONS, isValidEpisodeForSeason, ALL_EPISODES } from './sceneMetadata';
+import { SEASONS, isValidEpisodeForSeason, ALL_EPISODES } from './eventMetadata';
 
 // Schema for spoiler filter URL parameters
 const filterParamsSchema = z

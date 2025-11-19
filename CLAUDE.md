@@ -4,27 +4,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-"We Is Us" is a web application for visualizing the non-linear timeline of a TV show (working with Apple TV's show that tells its story by navigating back and forth in time). The project stores scene data with timestamps and displays them in a web interface.
+"We Is Us" is a web application for visualizing the non-linear timeline of a TV show (working with Apple TV's show that tells its story by navigating back and forth in time). The project stores event data with timestamps and displays them in a web interface.
 
 ### Core Concept
 
-The show presents scenes out of chronological order. Each scene has a timestamp (or delta from time 0) that represents when it occurs in the actual story timeline. This application:
+The show presents events out of chronological order. Each event has a timestamp (or delta from time 0) that represents when it occurs in the actual story timeline. This application:
 
-- Stores scene records with their timestamp deltas in a human-readable file format (committed to the repository)
-- Displays scenes in various views (chronological, as-aired, timeline visualization)
+- Stores event records with their timestamp deltas in a human-readable file format (committed to the repository)
+- Displays events in various views (chronological, as-aired, timeline visualization)
 - Helps viewers understand the non-linear narrative structure
 - Allows anyone to browse the timeline data directly on GitHub
 
 ## Data Model
 
-### Scene Record Structure
+### event Record Structure
 
-Each scene is a flexible object with:
+Each event is a flexible object with:
 
-- **id**: UUID (universally unique identifier) for the scene
+- **id**: UUID (universally unique identifier) for the event
 - **delta**: Time offset from time 0 (e.g., "5 days", "-2 hours", "3 weeks")
-- **text**: Descriptive text accompanying the scene
-- **images**: Array of image paths/URLs for the scene
+- **text**: Descriptive text accompanying the event
+- **images**: Array of image paths/URLs for the event
 - **tags**: Array of key:value tags (e.g., "episode:1", "location:Hospital", "character:John")
 
 ### Tag System
@@ -37,7 +37,7 @@ Tags provide metadata with strict validation enforced by the schema:
   - `episode` and `season` values must be numbers (e.g., `"episode:1"`, `"season:2"`)
   - All other tag values must start with a capital letter (e.g., `"character:Carol"`, `"location:Hospital"`)
   - Only the defined tag keys are allowed - custom keys will be rejected
-- Adding new tag types requires updating the schema in `/data/scenes.schema.json`
+- Adding new tag types requires updating the schema in `/data/events.schema.json`
 
 ## Technology Stack
 
@@ -55,7 +55,7 @@ Tags provide metadata with strict validation enforced by the schema:
 
 ### Data Updates
 
-- Edit `/data/scenes.json` directly (manual or with local tools)
+- Edit `/data/events.json` directly (manual or with local tools)
 - Commit and push changes
 - Hosting platform automatically rebuilds and deploys
 - No traditional backend needed for basic functionality
@@ -71,10 +71,10 @@ Tags provide metadata with strict validation enforced by the schema:
 
 ```
 /data
-  scenes.json          # Main scene timeline data
-  scenes.schema.json   # JSON Schema for data validation
+  events.json          # Main event timeline data
+  events.schema.json   # JSON Schema for data validation
 /public
-  /images              # Scene images (served as static assets)
+  /images              # event images (served as static assets)
 /scripts
   validate-schema.ts   # Schema validation script
 /src
@@ -96,7 +96,7 @@ package.json           # Project dependencies and scripts
 
 ### Data File Format
 
-See `/data/scenes.json` for example structure. Each scene includes:
+See `/data/events.json` for example structure. Each event includes:
 
 - UUID (must be valid UUID v4 format)
 - Delta (time offset from time 0, supports negative values for flashbacks)
@@ -106,7 +106,7 @@ See `/data/scenes.json` for example structure. Each scene includes:
 
 ### Schema Validation
 
-The data structure is enforced by JSON Schema (`/data/scenes.schema.json`):
+The data structure is enforced by JSON Schema (`/data/events.schema.json`):
 
 - **UUID format**: Must be valid UUID v4
 - **Delta format**: Must match pattern like "5 days", "-2 hours", "3 weeks"
@@ -120,10 +120,10 @@ The data structure is enforced by JSON Schema (`/data/scenes.schema.json`):
 
 ### Data Management
 
-Scene records are managed by editing `/data/scenes.json`:
+event records are managed by editing `/data/events.json`:
 
 - Edit JSON file directly or use local tools
-- UUIDs should be generated when creating new scenes (use UUID v4)
+- UUIDs should be generated when creating new events (use UUID v4)
 - Run `bun run validate` to check data against schema before committing
 - After editing, commit and push to trigger rebuild
 - Future enhancement: Admin interface could be added as a separate tool
@@ -174,7 +174,7 @@ The dev server runs at http://localhost:4321 by default.
 - Form on `/filter` submits to `/` (timeline page) with filter parameters
 - Timeline page (`/`) requires filter parameters - redirects to `/filter` if missing
 - **No client-side JavaScript required** - pure HTML forms and server-side routing
-- Scenes are filtered based on URL query parameters (`?season=1&episode=5` or `?showAll=true`)
+- events are filtered based on URL query parameters (`?season=1&episode=5` or `?showAll=true`)
 - **Type-safe URL params**: Uses Zod schemas (`/src/lib/urlParams.ts`) for validation and type safety
 - Users can check "I've seen everything" to bypass filtering
 - "Change Filter" button on timeline page redirects to `/filter`
@@ -182,13 +182,13 @@ The dev server runs at http://localhost:4321 by default.
 
 ## Key Implementation Notes
 
-- **Scene IDs**: Use UUID v4 for guaranteed uniqueness across all scenes
+- **event IDs**: Use UUID v4 for guaranteed uniqueness across all events
 - **Delta format**: String-based (e.g., "5 days", "-2 hours") for human readability; parser will need to convert to numeric values for sorting
 - Negative deltas represent flashbacks (events before time 0)
 - Tags are flexible and can be added/modified without schema changes
-- Multiple images per scene supported via array
+- Multiple images per event supported via array
 - **SSR mode**: Site uses server-side rendering to handle URL parameters dynamically
-- **Data loading**: Scene data is loaded from `/data/scenes.json` at request time
+- **Data loading**: event data is loaded from `/data/events.json` at request time
 - **Image paths**: Reference as `/images/filename.jpg` (served from `/public/images/`)
 - **Styling**: Use Tailwind CSS utility classes for all styling (imported via `/src/styles/global.css`)
 - **Code formatting**: Run `bun run format` before committing to ensure consistent code style
@@ -197,5 +197,5 @@ The dev server runs at http://localhost:4321 by default.
 - Data is stored in version-controlled files, making it easy for contributors to submit PRs with corrections
 - Data files should be formatted for readability (Prettier handles JSON formatting automatically)
 - Images should be optimized for web (consider file size)
-- **Data updates**: In SSR mode, changes to `/data/scenes.json` require server restart to take effect (no rebuild needed)
+- **Data updates**: In SSR mode, changes to `/data/events.json` require server restart to take effect (no rebuild needed)
 - **Code changes**: Changes to `.astro` files or logic require rebuild and server restart

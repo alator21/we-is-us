@@ -30,7 +30,7 @@ const maxEpisode = showAll ? 999 : filterParams.episode || 0;
 // Get list of revealed event indices from validated params
 const revealedIndices = new Set(filterParams.reveal || []);
 
-// Mark scenes as spoilers based on user's progress
+// Mark events as spoilers based on user's progress
 const eventsWithSpoilerFlag = eventsData.events.map((event) => {
   if (showAll) {
     return { ...event, isSpoiler: false };
@@ -80,26 +80,26 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
         <p class="text-sm text-blue-800">
           {
             showAll
-              ? 'Showing all scenes (no spoiler protection)'
-              : `Spoiler protection active: Scenes beyond Season ${maxSeason}, Episode ${maxEpisode} are blurred`
+              ? 'Showing all events (no spoiler protection)'
+              : `Spoiler protection active: Events beyond Season ${maxSeason}, Episode ${maxEpisode} are blurred`
           }
         </p>
       </div>
 
-      <!-- Scenes List -->
+      <!-- Events List -->
       <div class="flex flex-col">
         {
           sortedEvents.map((event, index) => {
-            // Calculate time diff from previous scene
+            // Calculate time diff from previous event
             const timeDiff =
               index > 0 ? calculateTimeDiff(sortedEvents[index - 1]!.delta, event.delta) : null;
-            const isFirstScene = index === 0;
+            const isFirstEvent = index === 0;
 
             // Check if this specific event is revealed
             const isRevealed = revealedIndices.has(index);
             const shouldBlur = event.isSpoiler && !isRevealed;
 
-            // Build URL for revealing this scene
+            // Build URL for revealing this event
             const newRevealSet = new Set(revealedIndices);
             newRevealSet.add(index);
             const revealList = Array.from(newRevealSet)
@@ -118,7 +118,7 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
             return (
               <>
                 {/* Time progression indicator */}
-                {!isFirstScene && (
+                {!isFirstEvent && (
                   <div class="flex items-center justify-center py-4">
                     <div class="flex-1 border-t-2 border-gray-300" />
                     <div class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
@@ -129,7 +129,7 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
                 )}
 
                 {/* First event indicator */}
-                {isFirstScene && (
+                {isFirstEvent && (
                   <div class="flex items-center justify-center py-4 mb-2">
                     <div class="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
                       📍 Timeline Start {event.delta && `(${event.delta})`}
@@ -137,12 +137,12 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
                   </div>
                 )}
 
-                {/* Scene card */}
+                {/* Event card */}
                 <div
                   id={`event-${index}`}
                   class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow relative"
                 >
-                  {/* Scene content */}
+                  {/* Event content */}
                   <div class:list={[shouldBlur && 'blur-md select-none pointer-events-none']}>
                     <div class="flex justify-between items-start mb-3">
                       <h3 class="text-xl font-semibold text-gray-900">
@@ -167,7 +167,7 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
                           {event.images.map((image) => (
                             <img
                               src={image}
-                              alt="Scene image"
+                              alt="Event image"
                               class="w-full h-64 rounded-md object-cover"
                               loading="lazy"
                             />
@@ -203,7 +203,7 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
                         class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium text-sm cursor-pointer shadow-md"
                       >
                         <span class="text-lg">👁️</span>
-                        Reveal This Scene
+                        Reveal This Event
                       </a>
                     </div>
                   )}
