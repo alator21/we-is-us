@@ -38,9 +38,9 @@
             "type": "array",
             "items": {
               "type": "string",
-              "pattern": "^(episode|season|character|location|theme|time):\\s*.+$|^episode:\\s*\\d+$|^season:\\s*\\d+$"
+              "pattern": "^(episode|season|character|location|theme|time|marker):\\s*.+$|^episode:\\s*\\d+$|^season:\\s*\\d+$"
             },
-            "description": "Array of tags in key:value format. Allowed keys: episode (number), season (number), character (capitalized), location (capitalized), theme (capitalized), time (capitalized)"
+            "description": "Array of tags in key:value format. Allowed keys: episode (number), season (number), character (capitalized), location (capitalized), theme (capitalized), time (capitalized), marker (for marking important time moments)"
           }
         },
         "required": ["text", "tags"],

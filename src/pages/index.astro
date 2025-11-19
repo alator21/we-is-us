@@ -99,6 +99,18 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
             const isRevealed = revealedIndices.has(index);
             const shouldBlur = event.isSpoiler && !isRevealed;
 
+            // Check if this event has a marker tag (important time moment)
+            const markerTag = event.tags.find((tag: string) => tag.startsWith('marker:'));
+            const markerLabel = markerTag ? markerTag.split(':')[1]?.trim() : null;
+
+            // Convert marker label to CSS-friendly class name
+            const markerClass = markerLabel
+              ? `marker-${markerLabel
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, '-')
+                  .replace(/^-+|-+$/g, '')}`
+              : null;
+
             // Build URL for revealing this event
             const newRevealSet = new Set(revealedIndices);
             newRevealSet.add(index);
@@ -137,10 +149,28 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
                   </div>
                 )}
 
+                {/* Time marker indicator */}
+                {markerLabel && !isFirstEvent && (
+                  <div class="flex items-center justify-center py-4 mb-2">
+                    <div
+                      class:list={[
+                        'px-6 py-3 bg-purple-100 text-purple-900 rounded-full text-base font-bold border-2 border-purple-300 shadow-md',
+                        markerClass,
+                      ]}
+                    >
+                      🎯 {markerLabel}
+                    </div>
+                  </div>
+                )}
+
                 {/* Event card */}
                 <div
                   id={`event-${index}`}
-                  class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow relative"
+                  class:list={[
+                    'bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow relative',
+                    markerLabel ? 'border-2 border-purple-300' : 'border border-gray-200',
+                    markerClass,
+                  ]}
                 >
                   {/* Event content */}
                   <div class:list={[shouldBlur && 'blur-md select-none pointer-events-none']}>

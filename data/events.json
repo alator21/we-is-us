@@ -56,7 +56,7 @@
     {
       "delta": "0 hours",
       "text": "Despite Carol's best efforts at CPR, Helen dies. There's no time to grieve because the seizure people all wake up and freak Carol out by trying to move Helen's body - and all somehow seem to know Carol's name. She gets out of there, fast. ",
-      "tags": ["season:1", "episode:1", "location:A hospital in Albuquerque. "]
+      "tags": ["season:1", "episode:1", "location:A hospital in Albuquerque. ", "marker:Time Zero"]
     },
     {
       "delta": "0 hours",
@@ -64,7 +64,8 @@
       "tags": [
         "season:1",
         "episode:1",
-        "location:Carol's house at 1208 Clelo Rosado Court, Albuquerque"
+        "location:Carol's house at 1208 Clelo Rosado Court, Albuquerque",
+        "marker:Time Zero"
       ]
     },
     {
