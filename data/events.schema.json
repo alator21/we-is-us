@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Scene Timeline Data",
-  "description": "Schema for the non-linear timeline scene data",
+  "title": "Event Timeline Data",
+  "description": "Schema for the non-linear timeline event data",
   "type": "object",
   "properties": {
-    "scenes": {
+    "events": {
       "type": "array",
       "items": {
         "type": "object",
@@ -19,12 +19,12 @@
                 "type": "null"
               }
             ],
-            "description": "Time offset from time 0. Supports single units (e.g., '5 days', '-2 hours') or combined units (e.g., '7 days 17 hours', '2 weeks 3 days'). Can be null if exact time is unknown - scene will be placed by its position in the array."
+            "description": "Time offset from time 0. Supports single units (e.g., '5 days', '-2 hours') or combined units (e.g., '7 days 17 hours', '2 weeks 3 days'). Can be null if exact time is unknown - event will be placed by its position in the array."
           },
           "text": {
             "type": "string",
             "minLength": 1,
-            "description": "Descriptive text accompanying the scene"
+            "description": "Descriptive text accompanying the event"
           },
           "images": {
             "type": "array",
@@ -48,6 +48,6 @@
       }
     }
   },
-  "required": ["scenes"],
+  "required": ["events"],
   "additionalProperties": false
 }

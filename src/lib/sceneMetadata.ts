@@ -1,4 +1,4 @@
-import scenesData from '../../data/scenes.json';
+import eventsData from '../../data/events.json';
 
 // Helper function to extract tag value
 function getTagValue(tags: string[], key: string): string | null {
@@ -10,9 +10,9 @@ function getTagValue(tags: string[], key: string): string | null {
 function extractSeasonEpisodes(): Map<number, Set<number>> {
   const seasonEpisodes = new Map<number, Set<number>>();
 
-  scenesData.scenes.forEach((scene) => {
-    const seasonStr = getTagValue(scene.tags, 'season');
-    const episodeStr = getTagValue(scene.tags, 'episode');
+  eventsData.events.forEach((event) => {
+    const seasonStr = getTagValue(event.tags, 'season');
+    const episodeStr = getTagValue(event.tags, 'episode');
 
     if (seasonStr && episodeStr) {
       const season = parseInt(seasonStr, 10);

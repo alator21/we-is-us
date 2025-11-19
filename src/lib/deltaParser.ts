@@ -88,19 +88,19 @@ export function calculateTimeDiff(
 }
 
 /**
- * Sort scenes by their delta chronologically
- * Scenes without deltas maintain their array position relative to scenes with deltas
+ * Sort events by their delta chronologically
+ * Events without deltas maintain their array position relative to events with deltas
  */
-export function sortScenesByDelta<T extends { delta?: string | null | undefined }>(
-  scenes: T[]
+export function sortEventsByDelta<T extends { delta?: string | null | undefined }>(
+  events: T[]
 ): T[] {
   // Add original index to track array position
-  const scenesWithIndex = scenes.map((scene, index) => ({ scene, originalIndex: index }));
+  const eventsWithIndex = events.map((event, index) => ({ event, originalIndex: index }));
 
-  return scenesWithIndex
+  return eventsWithIndex
     .sort((a, b) => {
-      const aHours = parseDeltaToHours(a.scene.delta);
-      const bHours = parseDeltaToHours(b.scene.delta);
+      const aHours = parseDeltaToHours(a.event.delta);
+      const bHours = parseDeltaToHours(b.event.delta);
 
       // If both have deltas, sort by delta
       if (aHours !== null && bHours !== null) {
@@ -117,5 +117,5 @@ export function sortScenesByDelta<T extends { delta?: string | null | undefined 
       // For simplicity, maintain original order
       return a.originalIndex - b.originalIndex;
     })
-    .map((item) => item.scene);
+    .map((item) => item.event);
 }

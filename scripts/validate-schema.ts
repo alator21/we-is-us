@@ -5,8 +5,8 @@ import { join } from 'path';
 const ajv = new Ajv({ allErrors: true });
 
 // Load schema and data
-const schemaPath = join(process.cwd(), 'data', 'scenes.schema.json');
-const dataPath = join(process.cwd(), 'data', 'scenes.json');
+const schemaPath = join(process.cwd(), 'data', 'events.schema.json');
+const dataPath = join(process.cwd(), 'data', 'events.json');
 
 const schema = JSON.parse(readFileSync(schemaPath, 'utf-8'));
 const data = JSON.parse(readFileSync(dataPath, 'utf-8'));
