@@ -38,12 +38,12 @@
             "type": "array",
             "items": {
               "type": "string",
-              "pattern": "^(episode|season|character|location|theme|time):\\s*[A-Z][a-zA-Z0-9\\s-]*$|^episode:\\s*\\d+$|^season:\\s*\\d+$"
+              "pattern": "^(episode|season|character|location|theme|time):\\s*.+$|^episode:\\s*\\d+$|^season:\\s*\\d+$"
             },
             "description": "Array of tags in key:value format. Allowed keys: episode (number), season (number), character (capitalized), location (capitalized), theme (capitalized), time (capitalized)"
           }
         },
-        "required": ["text", "images", "tags"],
+        "required": ["text", "tags"],
         "additionalProperties": false
       }
     }
