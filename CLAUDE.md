@@ -23,7 +23,8 @@ Each event is a flexible object with:
 
 - **id**: UUID (universally unique identifier) for the event
 - **delta**: Time offset from time 0 (e.g., "5 days", "-2 hours", "3 weeks")
-- **text**: Descriptive text accompanying the event
+- **summary**: Brief summary of the event (max 200 characters, shown in timeline cards)
+- **description**: Detailed description of the event (shown in event detail view)
 - **images**: Array of image paths/URLs for the event
 - **tags**: Array of key:value tags (e.g., "episode:1", "location:Hospital", "character:John")
 
@@ -100,7 +101,8 @@ See `/data/events.json` for example structure. Each event includes:
 
 - UUID (must be valid UUID v4 format)
 - Delta (time offset from time 0, supports negative values for flashbacks)
-- Text description
+- Summary (brief description, max 200 characters)
+- Description (detailed description for event detail view)
 - Array of image paths (must start with `/images/`)
 - Array of tags for flexible categorization (must be `key:value` format)
 
@@ -110,12 +112,14 @@ The data structure is enforced by JSON Schema (`/data/events.schema.json`):
 
 - **UUID format**: Must be valid UUID v4
 - **Delta format**: Must match pattern like "5 days", "-2 hours", "3 weeks"
+- **Summary**: Must be 1-200 characters
+- **Description**: Must not be empty
 - **Image paths**: Must start with `/images/` and have valid extensions (.jpg, .jpeg, .png, .gif, .webp)
-- **Tag keys**: Only `episode`, `season`, `character`, `location`, `theme`, `time` are allowed
+- **Tag keys**: Only `episode`, `season`, `character`, `location`, `theme`, `time`, `marker` are allowed
 - **Tag values**:
   - `episode` and `season` must be numbers
   - Other tags must start with a capital letter (e.g., "Carol", "Hospital")
-- **Required fields**: All fields (id, delta, text, images, tags) are required
+- **Required fields**: All fields (id, summary, description, tags) are required (delta and images are optional)
 - Validation runs automatically before every build
 
 ### Data Management

@@ -223,7 +223,7 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
                     </div>
                   )}
 
-                  <p class="text-sm text-gray-700 mb-3 line-clamp-3">{event.text}</p>
+                  <p class="text-sm text-gray-700 mb-3 line-clamp-3">{event.summary}</p>
                   <div class="flex flex-wrap gap-1">
                     {event.tags.slice(0, 3).map((tag) => (
                       <span class="bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full text-xs font-medium">
@@ -343,7 +343,7 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
                           </div>
                         )}
 
-                        <p class="text-gray-700 mb-4">{event.text}</p>
+                        <p class="text-gray-700 mb-4">{event.summary}</p>
                         <div class="flex flex-wrap gap-2">
                           {event.tags.map((tag) => (
                             <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">

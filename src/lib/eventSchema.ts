@@ -23,7 +23,11 @@ export const eventSchema = z.object({
     .nullable()
     .optional()
     .transform((val) => val ?? null),
-  text: z.string().min(1, 'Text must not be empty'),
+  summary: z
+    .string()
+    .min(1, 'Summary must not be empty')
+    .max(200, 'Summary must be 200 characters or less'),
+  description: z.string().min(1, 'Description must not be empty'),
   images: z.array(z.string().regex(imagePathRegex, 'Invalid image path')).optional().default([]),
   tags: z.array(z.string().regex(tagRegex, 'Invalid tag format')),
 });

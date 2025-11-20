@@ -26,10 +26,16 @@
             ],
             "description": "Time offset from time 0. Supports single units (e.g., '5 days', '-2 hours') or combined units (e.g., '7 days 17 hours', '2 weeks 3 days'). Can be null if exact time is unknown - event will be placed by its position in the array."
           },
-          "text": {
+          "summary": {
             "type": "string",
             "minLength": 1,
-            "description": "Descriptive text accompanying the event"
+            "maxLength": 200,
+            "description": "Brief summary of the event (shown in timeline cards)"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Detailed description of the event (shown in event detail view)"
           },
           "images": {
             "type": "array",
@@ -48,7 +54,7 @@
             "description": "Array of tags in key:value format. Allowed keys: episode (number), season (number), character (capitalized), location (capitalized), theme (capitalized), time (capitalized), marker (for marking important time moments)"
           }
         },
-        "required": ["id", "text", "tags"],
+        "required": ["id", "summary", "description", "tags"],
         "additionalProperties": false
       }
     }
