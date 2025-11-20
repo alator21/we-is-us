@@ -33,10 +33,7 @@ const filterParamsSchema = z
     layout: z
       .string()
       .nullable()
-      .transform((val) => val || 'list')
-      .refine((val) => ['list', 'grid'].includes(val), {
-        message: 'Layout must be either "list" or "grid"',
-      }),
+      .transform((val) => (val === 'grid' ? 'grid' : 'list') as 'grid' | 'list'),
   })
   .refine(
     (data) => {

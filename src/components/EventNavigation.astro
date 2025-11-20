@@ -1,0 +1,60 @@
+---
+import type { Event } from '../lib/eventSchema';
+
+interface Props {
+  prevEvent: Event | null | undefined;
+  nextEvent: Event | null | undefined;
+  filterParams: string;
+}
+
+const { prevEvent, nextEvent, filterParams } = Astro.props;
+---
+
+<div class="mt-8 flex justify-between items-center">
+  <div>
+    {
+      prevEvent && (
+        <a
+          href={`/event/${prevEvent.id}${filterParams}`}
+          class="inline-flex items-center gap-2 px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-50 border border-gray-300 transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          <div class="text-left">
+            <div class="text-xs text-gray-500">Previous</div>
+            <div class="text-sm font-medium">{prevEvent.delta || 'Unknown'}</div>
+          </div>
+        </a>
+      )
+    }
+  </div>
+  <div>
+    {
+      nextEvent && (
+        <a
+          href={`/event/${nextEvent.id}${filterParams}`}
+          class="inline-flex items-center gap-2 px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-50 border border-gray-300 transition-colors"
+        >
+          <div class="text-right">
+            <div class="text-xs text-gray-500">Next</div>
+            <div class="text-sm font-medium">{nextEvent.delta || 'Unknown'}</div>
+          </div>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </a>
+      )
+    }
+  </div>
+</div>

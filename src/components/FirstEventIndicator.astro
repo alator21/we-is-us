@@ -1,0 +1,13 @@
+---
+interface Props {
+  delta: string | null;
+}
+
+const { delta } = Astro.props;
+---
+
+<div class="flex items-center justify-center py-4 mb-2">
+  <div class="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
+    📍 Timeline Start {delta && `(${delta})`}
+  </div>
+</div>

@@ -18,9 +18,7 @@ const tagRegex =
 export const eventSchema = z.object({
   id: z.string().regex(uuidV4Regex, 'Must be a valid UUID v4'),
   delta: z
-    .string()
-    .regex(deltaRegex, 'Invalid delta format')
-    .nullable()
+    .union([z.string().regex(deltaRegex, 'Invalid delta format'), z.null()])
     .optional()
     .transform((val) => val ?? null),
   summary: z

@@ -1,0 +1,19 @@
+---
+interface Props {
+  markerLabel: string;
+  markerClass?: string | null;
+}
+
+const { markerLabel, markerClass } = Astro.props;
+---
+
+<div class="flex items-center justify-center py-4 mb-2">
+  <div
+    class:list={[
+      'px-6 py-3 bg-purple-100 text-purple-900 rounded-full text-base font-bold border-2 border-purple-300 shadow-md',
+      markerClass,
+    ]}
+  >
+    🎯 {markerLabel}
+  </div>
+</div>

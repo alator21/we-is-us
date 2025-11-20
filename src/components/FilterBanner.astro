@@ -1,0 +1,19 @@
+---
+interface Props {
+  showAll: boolean;
+  maxSeason: number;
+  maxEpisode: number;
+}
+
+const { showAll, maxSeason, maxEpisode } = Astro.props;
+---
+
+<div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+  <p class="text-sm text-blue-800">
+    {
+      showAll
+        ? 'Showing all events (no spoiler protection)'
+        : `Spoiler protection active: Events beyond Season ${maxSeason}, Episode ${maxEpisode} are blurred`
+    }
+  </p>
+</div>

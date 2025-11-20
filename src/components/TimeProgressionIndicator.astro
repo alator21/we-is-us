@@ -1,0 +1,15 @@
+---
+interface Props {
+  timeDiff: string | null;
+}
+
+const { timeDiff } = Astro.props;
+---
+
+<div class="flex items-center justify-center py-4">
+  <div class="flex-1 border-t-2 border-gray-300"></div>
+  <div class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
+    {timeDiff ? `⏱️ ${timeDiff}` : '⏱️ some time later'}
+  </div>
+  <div class="flex-1 border-t-2 border-gray-300"></div>
+</div>

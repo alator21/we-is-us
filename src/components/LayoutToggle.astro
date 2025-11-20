@@ -1,0 +1,29 @@
+---
+interface Props {
+  layout: 'grid' | 'list';
+  buildUrl: (overrides: Record<string, string>) => string;
+}
+
+const { layout, buildUrl } = Astro.props;
+---
+
+<div class="flex bg-gray-100 rounded-lg p-1 gap-1">
+  <a
+    href={buildUrl({ layout: 'list' })}
+    class:list={[
+      'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+      layout === 'list' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900',
+    ]}
+  >
+    List
+  </a>
+  <a
+    href={buildUrl({ layout: 'grid' })}
+    class:list={[
+      'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+      layout === 'grid' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900',
+    ]}
+  >
+    Grid
+  </a>
+</div>
