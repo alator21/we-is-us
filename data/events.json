@@ -1,12 +1,14 @@
 {
   "events": [
     {
+      "id": "f1ac5bd5-a279-45d6-84dd-d7364babf112",
       "delta": "-2617 days",
       "text": "Carol and Helen check into their room at the ice hotel, where Helen gives her the news of the Top 20 best-seller. Carol doesn't look thrilled at the news and even less-thrilled with the temperature. Helen always wanted to see the Northern Lights and is very happy about snuggling up to see them. Carol is more interested in peeing but not on an ice toilet. ",
       "images": ["/images/event_003_01.jpg"],
       "tags": ["season:1", "episode:3", "location:Unnamed Ice Hotel in Norway"]
     },
     {
+      "id": "beb54026-cf98-4097-a9ae-18d735b82229",
       "delta": "-439 days",
       "text": "Signal detected emanating from 600 Light Years away in deep space, initially believed to be quaternary, until pretty quickly figured out by genius astronomers that it's something else entirely i.e. a recipe.",
       "tags": [
@@ -16,6 +18,7 @@
       ]
     },
     {
+      "id": "5cac94d6-6736-4ca0-bda4-7f77738528a6",
       "delta": "-71 days",
       "text": "Scientists take the temperatures of some rats. I can't see anything else relevant happening. More of an establishing shot for later.",
       "tags": [
@@ -25,6 +28,7 @@
       ]
     },
     {
+      "id": "b0d5ceb0-9b30-4fba-8da3-6b59b0eb6530",
       "delta": "-71 days",
       "text": "Carol meet-and-greet with her fans. She gives a reading of Bloodsong of Wycaro and signs some books afterwards. After getting into the car, the driver says he's taking them to the Hyatt Regency Hotel, 300 Regency Boulevard, Dallas, Texas. Carol seems fed-up or worn-out from the book tour and Helen squeezes her hand tightly to comfort her.",
       "tags": [
@@ -34,11 +38,13 @@
       ]
     },
     {
+      "id": "387bbb8f-5617-4d2a-a756-660d4991fb84",
       "delta": "-29 days",
       "text": "A rat bites Jenn and she goes into a seizure. Her colleague Deshpande gets her out of there pronto. Jenn kisses the security guard, Mel, who goes into seizure. Soon enough everybody in the building is infected and swabbing their mouths into petri dishes to start spreading it around the world. Just in case that robust masterplan doesn't work, Jenn licks some donuts to cover all bases.",
       "tags": ["season:1", "episode:1", "location:USAMRIID"]
     },
     {
+      "id": "fb275c2d-2f63-483f-8dd1-76e6521d7a1f",
       "delta": "-3 hours",
       "text": "Carol and Helen stroll through the airport after landing and Carol isn't best pleased to see Diana Gabaldon's Outlander books are placed above Bloodsong of Wycaro. Helen pulls a switcheroo and buys gum to complete the subterfuge. ",
       "tags": [
@@ -48,17 +54,19 @@
       ]
     },
     {
+      "id": "4ddd66a8-51df-4d65-acd2-b336ed684353",
       "delta": "-1 hours",
       "text": "Helen encourages Carol to take a break from the Wycaro series and polish up her more serious manuscript, Bitter Chrysalis, which Carol seems more passionate about. As they go outside for a cigarette they just miss a Breaking News story about an Air Base on lockdown. Outside they're answering some fan questions on Helen's phone and Helen wonders does Carol want to be honest about the inspiration for Raban but she's just like 'nah, say Clooney'.",
       "tags": ["season:1", "episode:1", "location:Silver Jack's Saloon, Albuquerque"]
     },
-
     {
+      "id": "df6e6cd7-1999-4962-811b-89d577541685",
       "delta": "0 hours",
       "text": "Despite Carol's best efforts at CPR, Helen dies. There's no time to grieve because the seizure people all wake up and freak Carol out by trying to move Helen's body - and all somehow seem to know Carol's name. She gets out of there, fast. ",
       "tags": ["season:1", "episode:1", "location:A hospital in Albuquerque. "]
     },
     {
+      "id": "e9d6e109-8b06-4846-a673-3089bf498b67",
       "delta": "0 hours",
       "text": "Carol can't get into her house, until the creepy kids from next door tell her there's a key under the flowerpot. All the neighbours leave when Carol tells the kids to go away. Carol flicks all the way to Channel 25 and slowly realises the chyron is written specifically to her. She talks to Davis Taffler (Vote Taffler for President) and doesn't like what she's hearing, not least that there are only 11 others like her.",
       "tags": [
@@ -68,20 +76,24 @@
       ]
     },
     {
+      "id": "1b7b4881-6382-4b9a-b8cd-924755d8a951",
       "delta": "1 hours",
       "text": "Carol's heard plenty enough from Davis Taffler and was not remotely reassured by the 'We're Not Aliens' chyrons on the TV. ",
       "tags": ["season:1", "episode:1", "location:Carol's house"]
     },
     {
+      "id": "728460bb-30ee-48c5-b3bd-2f8b07c6bb90",
       "text": "Zosia (as yet unnamed) is helping collect bodies but has mud on her face; which will confuse 5% of viewers who didn't connect that the lady flying the Hercules C-130A to Albuquerque, who got in a shower and put on a wig that was waiting for her, is the same lady that showed up at Carol's house.",
       "tags": ["season:1", "episode:2", "location:Tangier, Morocco"]
     },
     {
+      "id": "2c323f7b-2678-44a5-bfec-c503226e624a",
       "delta": "11 hours",
       "text": "Carol wakes up hungover but unfortunately it wasn't a bad dream and looks over to see Helen dead. She wraps Helen in a blanket and starts digging a grave in the garden, until she is interrupted by Zosia who is intent on getting Carol to drink water. Carol's trust level of these people is set to 0 and she empties the water out. Carol chases after Zosia and clocks that she's more-or-less the original idea of Raban and is informed they knew that because they have access to Helen's memories. Carol freaks out and causes Zosia to have a seizure. After going to get help she realizes they're all having seizures. Zosia tells Carol a few people died as a result of her freak out, which later transpires to be a slight understatement. The hive mind fly in a digger to complete the grave. Zosia also spills there's been a 12th individual found in Paraguy. Carol wants to meet the English speakers because she's still at trust level 0 on them doing any interpreting for her. ",
       "tags": ["season:1", "episode:2", "location:Carol's house"]
     },
     {
+      "id": "75921963-1c65-47ba-8d0c-da9fd418040e",
       "delta": "2 days 2 hours",
       "text": "Carol meets Kusimayu, Laxmi, Otgonbayar, Xiu Mei, blissfully unaware Laxmi is so hostile because Carol killed her grandfather. The meeting is held up because Mr. Diabaté wanted Air Force One as his plane and presumably the supermodels to arrive to get on board. Carol is less than thrilled that the others don't see what she believes is the existential threat to humanity unfolding. The others seem to be more interested in talking about giraffes and lunch. Mr. Diabaté counters there's no crime, war, murder, racism, and from his perspective life is pretty peachy at the minute.",
       "tags": [
@@ -91,6 +103,7 @@
       ]
     },
     {
+      "id": "7fcc4591-49ac-44ca-b9c4-eadf567aefe8",
       "delta": "2 days 4 hours",
       "text": "Carol demands to know how many died so far and Zosia informs her 886,477,599 are dead. Lakmi can't resist informing Carol that around 11 million of those deaths are on her. Carol decides to drink like there's no tomorrow, freaks out again, induces more seizures and who knows how many dead, and then goes to bed.",
       "tags": [
@@ -100,6 +113,7 @@
       ]
     },
     {
+      "id": "311fea8c-5886-4c0c-9233-4e63e62ac6a3",
       "delta": "2 days 16 hours",
       "text": "Carol is hungover and not in the mood for Mr. Diabaté's sex-obsession. He asks can Zosia come with him to Vegas and Carol throws in a 'whatever dude' initially. However, on the plane about to make her way home, a moment of clarity hits Carol that she doesn't want Zosia treated like a sex slave, so forces Air Force One to pull the brakes.",
       "tags": [
@@ -109,20 +123,24 @@
       ]
     },
     {
+      "id": "ce89bd12-5329-4add-b7c0-9226b3061b7e",
       "delta": "3 days 3 hours",
       "text": "Carol is still sitting at the back of the plane and apparently not wanting to take any help from Zosia or anyone else; probably acutely aware the only reason planes are empty, and First Class seats are free, is because the entire world has gone cuckoo. She does accept Zosia's offer to call the dude in Paraguay; who curses Carol out, but she phones back and speed-curses him out before hanging up. He's one of only 12 people in the world Carol can do that to without killing millions.",
       "tags": ["season:1", "episode:3", "location:Plane"]
     },
     {
+      "id": "e493321d-ea3f-492c-915d-141b49126ed4",
       "text": "Zosia gives Carol the mail, which includes a very thoughtful surprise gift from Helen. It seems Carol finds no joy in the gift, in part due to grief and in part due to the whole world knowing about it because they 'stole' Helen's memories. It's generally not a secret surprise, if the whole world knows before you. Carol tells Zosia that Helen is out-of-bounds from now on.",
       "tags": ["season:1", "episode:3", "location:Carol's house"]
     },
     {
+      "id": "4ff11653-9a04-455f-9c85-6d363594b150",
       "delta": "4 days 12 hours",
       "text": "Carol is chilling watching The Golden Girls when breakfast she didn't ask for arrives at the door. Still unwilling to cede one inch of autonomy, unless by dire necessity, the breakfast goes into the bin. Dire necessity has comedic timing and shows up within the hour.",
       "tags": ["season:1", "episode:3", "location:Carol's house"]
     },
     {
+      "id": "7a9a7065-01d6-46b2-9cce-354f37f12077",
       "delta": "4 days 13 hours",
       "text": "Carol arrives to an empty supermarket, which forces her into asking Zosia to get trucks to arrive to put the supermarket back into operation. It only takes the hive mind 1 hour 8 minutes and 17 seconds to do it, showcasing military-like efficiency. Also pisses Carol off that she had to wait on these people to help her; so when she gets home the food has lost its appeal. To add insult to injury a power cut ensues mid-episode of The Golden Girls. It seems the collective knowledge of the entire earth still doesn't know how to do electricity flawlessly in cities. Carol sarcastically asks for a hand grenade, before swallowing her anti-depressants with vodka. Zosia shows up with a hand grenade and possibly would later regret that decision, if she had the capacity to decide her own feelings. Despite telling the hive mind that Helen is out-of-bounds, they dip into Helen's memory bank and Carol explodes, kinda literally. Carol stems Zosia's bleeding after the explosion and waits for news at the hospital. Waiting for news strongly suggests that she does care about at least one of the hive mind.",
       "tags": [
@@ -132,6 +150,7 @@
       ]
     },
     {
+      "id": "ccb50a25-2e64-4415-9e58-95e1a6430319",
       "delta": "4 days 21 hours",
       "text": "DHL guy says Zosia is doing better and yes they would give Carol a tank or atom bomb if she really wants to. Carol is perplexed and the episode closes with her considering the potential to ask for whatever she wants.",
       "tags": ["season:1", "episode:3", "location:Saint Joan Medical Centre, Albuquerque"]

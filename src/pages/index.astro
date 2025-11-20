@@ -180,13 +180,17 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
               .join(',');
             const revealUrl = buildUrl({ reveal: revealList }) + `#event-${index}`;
 
+            const GridCard = shouldBlur ? 'div' : 'a';
+            const eventUrl = `/event/${event.id}${Astro.url.search}`;
             return layout === 'grid' ? (
               // GRID LAYOUT - Compact view
-              <div
+              <GridCard
+                href={shouldBlur ? undefined : eventUrl}
                 id={`event-${index}`}
                 transition:name={`event-card-${index}`}
                 class:list={[
                   'bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow relative flex flex-col h-full',
+                  !shouldBlur && 'cursor-pointer',
                   markerLabel ? 'border-2 border-purple-300' : 'border border-gray-200',
                   markerClass,
                 ]}
@@ -259,7 +263,7 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
                     </a>
                   </div>
                 )}
-              </div>
+              </GridCard>
             ) : (
               // LIST LAYOUT - Original detailed view
               <>
@@ -298,81 +302,88 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
                 )}
 
                 {/* Event card */}
-                <div
-                  id={`event-${index}`}
-                  transition:name={`event-card-${index}`}
-                  class:list={[
-                    'bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow relative',
-                    markerLabel ? 'border-2 border-purple-300' : 'border border-gray-200',
-                    markerClass,
-                  ]}
-                >
-                  {/* Event content */}
-                  <div class:list={[shouldBlur && 'blur-md select-none pointer-events-none']}>
-                    <div class="flex justify-between items-start mb-3">
-                      <h3 class="text-xl font-semibold text-gray-900">
-                        {event.delta ? (
-                          event.delta
-                        ) : (
-                          <span class="text-gray-400 italic">Unknown time</span>
-                        )}
-                      </h3>
-                      <span class="text-sm text-gray-500 font-mono">#{index + 1}</span>
-                    </div>
+                {(() => {
+                  const ListCard = shouldBlur ? 'div' : 'a';
+                  return (
+                    <ListCard
+                      href={shouldBlur ? undefined : eventUrl}
+                      id={`event-${index}`}
+                      transition:name={`event-card-${index}`}
+                      class:list={[
+                        'block bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow relative',
+                        !shouldBlur && 'cursor-pointer',
+                        markerLabel ? 'border-2 border-purple-300' : 'border border-gray-200',
+                        markerClass,
+                      ]}
+                    >
+                      {/* Event content */}
+                      <div class:list={[shouldBlur && 'blur-md select-none pointer-events-none']}>
+                        <div class="flex justify-between items-start mb-3">
+                          <h3 class="text-xl font-semibold text-gray-900">
+                            {event.delta ? (
+                              event.delta
+                            ) : (
+                              <span class="text-gray-400 italic">Unknown time</span>
+                            )}
+                          </h3>
+                          <span class="text-sm text-gray-500 font-mono">#{index + 1}</span>
+                        </div>
 
-                    {/* Images */}
-                    {event.images && event.images.length > 0 && (
-                      <div class="mb-4">
-                        <div
-                          class:list={[
-                            'grid gap-2',
-                            event.images.length === 1 ? 'grid-cols-1' : 'grid-cols-2',
-                          ]}
-                        >
-                          {event.images.map((image) => (
-                            <img
-                              src={image}
-                              alt="Event image"
-                              class="w-full h-64 rounded-md object-cover"
-                              loading="lazy"
-                            />
+                        {/* Images */}
+                        {event.images && event.images.length > 0 && (
+                          <div class="mb-4">
+                            <div
+                              class:list={[
+                                'grid gap-2',
+                                event.images.length === 1 ? 'grid-cols-1' : 'grid-cols-2',
+                              ]}
+                            >
+                              {event.images.map((image) => (
+                                <img
+                                  src={image}
+                                  alt="Event image"
+                                  class="w-full h-64 rounded-md object-cover"
+                                  loading="lazy"
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        <p class="text-gray-700 mb-4">{event.text}</p>
+                        <div class="flex flex-wrap gap-2">
+                          {event.tags.map((tag) => (
+                            <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
+                              {tag}
+                            </span>
                           ))}
                         </div>
                       </div>
-                    )}
 
-                    <p class="text-gray-700 mb-4">{event.text}</p>
-                    <div class="flex flex-wrap gap-2">
-                      {event.tags.map((tag) => (
-                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Spoiler blur overlay */}
-                  {shouldBlur && (
-                    <div class="absolute inset-0 backdrop-blur-lg rounded-lg flex flex-col items-center justify-center z-10">
-                      <div class="text-center px-6 mb-4 bg-white bg-opacity-90 p-6 rounded-lg shadow-lg">
-                        <div class="text-4xl mb-2">🔒</div>
-                        <p class="font-semibold text-lg mb-1 text-gray-900">Spoiler Warning</p>
-                        <p class="text-sm text-gray-700">
-                          Content from Season {parseInt(getTagValue(event.tags, 'season'))}, Episode{' '}
-                          {parseInt(getTagValue(event.tags, 'episode'))}
-                        </p>
-                      </div>
-                      {/* Reveal button */}
-                      <a
-                        href={revealUrl}
-                        class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium text-sm cursor-pointer shadow-md"
-                      >
-                        <span class="text-lg">👁️</span>
-                        Reveal This Event
-                      </a>
-                    </div>
-                  )}
-                </div>
+                      {/* Spoiler blur overlay */}
+                      {shouldBlur && (
+                        <div class="absolute inset-0 backdrop-blur-lg rounded-lg flex flex-col items-center justify-center z-10">
+                          <div class="text-center px-6 mb-4 bg-white bg-opacity-90 p-6 rounded-lg shadow-lg">
+                            <div class="text-4xl mb-2">🔒</div>
+                            <p class="font-semibold text-lg mb-1 text-gray-900">Spoiler Warning</p>
+                            <p class="text-sm text-gray-700">
+                              Content from Season {parseInt(getTagValue(event.tags, 'season'))},
+                              Episode {parseInt(getTagValue(event.tags, 'episode'))}
+                            </p>
+                          </div>
+                          {/* Reveal button */}
+                          <a
+                            href={revealUrl}
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium text-sm cursor-pointer shadow-md"
+                          >
+                            <span class="text-lg">👁️</span>
+                            Reveal This Event
+                          </a>
+                        </div>
+                      )}
+                    </ListCard>
+                  );
+                })()}
               </>
             );
           })

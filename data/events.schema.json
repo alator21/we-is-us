@@ -9,6 +9,11 @@
       "items": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "description": "UUID v4 identifier for the event"
+          },
           "delta": {
             "oneOf": [
               {
@@ -43,7 +48,7 @@
             "description": "Array of tags in key:value format. Allowed keys: episode (number), season (number), character (capitalized), location (capitalized), theme (capitalized), time (capitalized), marker (for marking important time moments)"
           }
         },
-        "required": ["text", "tags"],
+        "required": ["id", "text", "tags"],
         "additionalProperties": false
       }
     }

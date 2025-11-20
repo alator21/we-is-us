@@ -21,6 +21,28 @@
   animation-duration: 0.3s;
 }
 
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Highlight targeted event when navigating back from detail view */
+[id^='event-']:target {
+  animation: highlight-pulse 2s ease-out;
+}
+
+@keyframes highlight-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 20px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
 /* Custom marker styles - showcase different styling for different timeline markers */
 
 /* Present Day marker - Enhanced purple with gradient */
