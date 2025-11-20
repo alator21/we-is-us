@@ -8,6 +8,19 @@
   overflow: hidden;
 }
 
+/* View transition customization */
+::view-transition-old(event-card),
+::view-transition-new(event-card) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth morph animation for event cards */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+}
+
 /* Custom marker styles - showcase different styling for different timeline markers */
 
 /* Present Day marker - Enhanced purple with gradient */
