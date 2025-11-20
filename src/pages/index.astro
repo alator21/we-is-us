@@ -26,9 +26,37 @@ if (!hasFilter) {
 const showAll = filterParams.showAll;
 const maxSeason = showAll ? 999 : filterParams.season || 0;
 const maxEpisode = showAll ? 999 : filterParams.episode || 0;
+const layout = filterParams.layout || 'list';
 
 // Get list of revealed event indices from validated params
 const revealedIndices = new Set(filterParams.reveal || []);
+
+// Helper to build URL with current params
+function buildUrl(overrides: Record<string, string> = {}): string {
+  const params = new URLSearchParams();
+  if (showAll) {
+    params.set('showAll', 'true');
+  } else {
+    params.set('season', maxSeason.toString());
+    params.set('episode', maxEpisode.toString());
+  }
+  if (revealedIndices.size > 0) {
+    params.set(
+      'reveal',
+      Array.from(revealedIndices)
+        .sort((a, b) => a - b)
+        .join(',')
+    );
+  }
+  params.set('layout', layout);
+
+  // Apply overrides
+  Object.entries(overrides).forEach(([key, value]) => {
+    params.set(key, value);
+  });
+
+  return `/?${params.toString()}`;
+}
 
 // Mark events as spoilers based on user's progress
 const eventsWithSpoilerFlag = eventsData.events.map((event) => {
@@ -68,12 +96,39 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
         <div>
           <h2 class="text-3xl font-bold text-gray-900 mb-2">Timeline</h2>
         </div>
-        <a
-          href="/filter"
-          class="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 border border-blue-600 rounded-md hover:bg-blue-50 transition-colors"
-        >
-          Change Filter
-        </a>
+        <div class="flex items-center gap-3">
+          <!-- Layout Toggle -->
+          <div class="flex bg-gray-100 rounded-lg p-1 gap-1">
+            <a
+              href={buildUrl({ layout: 'list' })}
+              class:list={[
+                'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+                layout === 'list'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900',
+              ]}
+            >
+              List
+            </a>
+            <a
+              href={buildUrl({ layout: 'grid' })}
+              class:list={[
+                'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+                layout === 'grid'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900',
+              ]}
+            >
+              Grid
+            </a>
+          </div>
+          <a
+            href="/filter"
+            class="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 border border-blue-600 rounded-md hover:bg-blue-50 transition-colors"
+          >
+            Change Filter
+          </a>
+        </div>
       </div>
 
       <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
@@ -87,7 +142,13 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
       </div>
 
       <!-- Events List -->
-      <div class="flex flex-col">
+      <div
+        class:list={[
+          layout === 'grid'
+            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
+            : 'flex flex-col',
+        ]}
+      >
         {
           sortedEvents.map((event, index) => {
             // Calculate time diff from previous event
@@ -117,17 +178,89 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
             const revealList = Array.from(newRevealSet)
               .sort((a, b) => a - b)
               .join(',');
+            const revealUrl = buildUrl({ reveal: revealList }) + `#event-${index}`;
 
-            // Manually construct URL with all current params plus reveal
-            let revealUrl = '/?';
-            if (showAll) {
-              revealUrl += 'showAll=true';
-            } else {
-              revealUrl += `season=${maxSeason}&episode=${maxEpisode}`;
-            }
-            revealUrl += `&reveal=${revealList}#event-${index}`;
+            return layout === 'grid' ? (
+              // GRID LAYOUT - Compact view
+              <div
+                id={`event-${index}`}
+                class:list={[
+                  'bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow relative flex flex-col h-full',
+                  markerLabel ? 'border-2 border-purple-300' : 'border border-gray-200',
+                  markerClass,
+                ]}
+              >
+                {/* Event content */}
+                <div
+                  class:list={['flex-1', shouldBlur && 'blur-md select-none pointer-events-none']}
+                >
+                  <div class="flex justify-between items-start mb-2">
+                    <h3 class="text-sm font-semibold text-gray-900">
+                      {event.delta ? (
+                        event.delta
+                      ) : (
+                        <span class="text-gray-400 italic">Unknown</span>
+                      )}
+                    </h3>
+                    <span class="text-xs text-gray-500 font-mono">#{index + 1}</span>
+                  </div>
 
-            return (
+                  {markerLabel && (
+                    <div class="mb-2">
+                      <span class="text-xs bg-purple-100 text-purple-900 px-2 py-1 rounded-full font-semibold">
+                        🎯 {markerLabel}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* First image only */}
+                  {event.images && event.images.length > 0 && (
+                    <div class="mb-2">
+                      <img
+                        src={event.images[0]}
+                        alt="Event image"
+                        class="w-full h-32 rounded-md object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+
+                  <p class="text-sm text-gray-700 mb-3 line-clamp-3">{event.text}</p>
+                  <div class="flex flex-wrap gap-1">
+                    {event.tags.slice(0, 3).map((tag) => (
+                      <span class="bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full text-xs font-medium">
+                        {tag}
+                      </span>
+                    ))}
+                    {event.tags.length > 3 && (
+                      <span class="text-xs text-gray-500">+{event.tags.length - 3}</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Spoiler blur overlay */}
+                {shouldBlur && (
+                  <div class="absolute inset-0 backdrop-blur-lg rounded-lg flex flex-col items-center justify-center z-10">
+                    <div class="text-center px-4 mb-3 bg-white bg-opacity-90 p-4 rounded-lg shadow-lg">
+                      <div class="text-2xl mb-1">🔒</div>
+                      <p class="font-semibold text-sm mb-1 text-gray-900">Spoiler</p>
+                      <p class="text-xs text-gray-700">
+                        S{parseInt(getTagValue(event.tags, 'season'))}E
+                        {parseInt(getTagValue(event.tags, 'episode'))}
+                      </p>
+                    </div>
+                    <a
+                      href={revealUrl}
+                      class="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium text-xs cursor-pointer shadow-md"
+                    >
+                      <span>👁️</span>
+                      Reveal
+                    </a>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // LIST LAYOUT - Original detailed view
               <>
                 {/* Time progression indicator */}
                 {!isFirstEvent && (

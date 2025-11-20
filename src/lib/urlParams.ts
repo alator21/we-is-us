@@ -32,6 +32,13 @@ const filterParamsSchema = z
           .map((idx) => parseInt(idx, 10))
           .filter((idx) => !isNaN(idx) && idx >= 0);
       }),
+    layout: z
+      .string()
+      .nullable()
+      .transform((val) => val || 'list')
+      .refine((val) => ['list', 'grid'].includes(val), {
+        message: 'Layout must be either "list" or "grid"',
+      }),
   })
   .refine(
     (data) => {
@@ -58,6 +65,7 @@ export function parseFilterParams(searchParams: URLSearchParams): FilterParams {
     episode: searchParams.get('episode'),
     showAll: searchParams.get('showAll'),
     reveal: searchParams.get('reveal'),
+    layout: searchParams.get('layout'),
   };
 
   return filterParamsSchema.parse(params);
