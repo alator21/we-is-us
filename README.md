@@ -30,6 +30,7 @@ Event data is stored in season files under `/data/events/`. Each event includes:
 **DO NOT include information from episodes that haven't aired yet.** Only add events from episodes that have been officially released on Apple TV+.
 
 When adding events:
+
 1. Be accurate with timestamps relative to "time 0" in the show
 2. Use proper tag formatting: `"season:1"`, `"episode:3"`, `"character:Carol"`, etc.
 3. Add images to `/public/images/` following the naming convention
@@ -59,6 +60,7 @@ When adding events:
 ### Reporting Issues
 
 Found an incorrect timestamp or missing event? Please [open an issue](../../issues) with:
+
 - Episode number where the event occurs
 - What needs to be corrected
 - Relevant screenshots (if applicable)

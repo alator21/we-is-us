@@ -18,7 +18,10 @@ const showCountdown = hasUpcomingEpisode();
       <div class="flex items-center gap-4">
         {
           showCountdown && nextEpisode.airDate && (
-            <EpisodeCountdown targetDate={nextEpisode.airDate} episodeNumber={nextEpisode.episodeNumber} />
+            <EpisodeCountdown
+              targetDate={nextEpisode.airDate}
+              episodeNumber={nextEpisode.episodeNumber}
+            />
           )
         }
         <a
