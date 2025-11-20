@@ -1,7 +1,6 @@
 ---
-// Load event data from JSON file
-import eventsDataRaw from '../../data/events.json';
-import { eventsDataSchema } from '../lib/eventSchema';
+// Load event data from season files
+import { eventsData } from '../lib/eventsData';
 import Navbar from '../components/Navbar.astro';
 import EventCard from '../components/EventCard.astro';
 import TimeProgressionIndicator from '../components/TimeProgressionIndicator.astro';
@@ -13,9 +12,6 @@ import { parseFilterParams, hasFilterParams } from '../lib/urlParams';
 import { sortEventsByDelta, calculateTimeDiff } from '../lib/deltaParser';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
-
-// Parse and validate event data through Zod schema
-const eventsData = eventsDataSchema.parse(eventsDataRaw);
 
 // Helper function to extract episode/season from tags
 function getTagValue(tags: string[], key: string): string {

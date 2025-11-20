@@ -56,7 +56,8 @@ Tags provide metadata with strict validation enforced by the schema:
 
 ### Data Updates
 
-- Edit `/data/events.json` directly (manual or with local tools)
+- Edit season files in `/data/events/` directory (e.g., `season-1.json`, `season-2.json`)
+- Each season file contains an array of event objects
 - Commit and push changes
 - Hosting platform automatically rebuilds and deploys
 - No traditional backend needed for basic functionality
@@ -64,47 +65,83 @@ Tags provide metadata with strict validation enforced by the schema:
 ### Database
 
 - **Type**: File-based, human-readable data stored in repository
-- **Format**: JSON (recommended for structured data with easy parsing and GitHub diff viewing)
-- **Location**: Data files stored in `/data` directory
-- **Benefits**: Version-controlled, easily viewable on GitHub, no external database hosting needed
+- **Format**: JSON files split by season for better maintainability
+- **Location**: Event data stored in `/data/events/` directory, one file per season
+- **Structure**: Each season file is a JSON array of events (not wrapped in an "events" key)
+- **Loading**: All season files are automatically loaded and merged by `/src/lib/eventsData.ts`
+- **Benefits**: Version-controlled, easily viewable on GitHub, no external database hosting needed, scalable as more seasons are added
 
 ## Project Structure
 
 ```
 /data
-  events.json          # Main event timeline data
+  /events
+    season-1.json      # Season 1 event data (array of events)
+    season-2.json      # Season 2 event data (add as needed)
   events.schema.json   # JSON Schema for data validation
 /public
   /images              # event images (served as static assets)
 /scripts
-  validate-schema.ts   # Schema validation script
+  validate-schema.ts   # Schema validation script (validates all season files)
+  split-events-by-season.ts  # Utility to split events.json into season files
 /src
   /components
-    Navbar.astro       # Navigation bar component
-    SpoilerFilter.astro # (Legacy - not used, can be removed)
+    EventCard.astro           # Event card component for grid/list views
+    EventDetailCard.astro     # Full event detail display
+    EventNavigation.astro     # Prev/Next navigation
+    BackButton.astro          # Reusable back button
+    TimeProgressionIndicator.astro  # Time gaps between events
+    FirstEventIndicator.astro # Timeline start marker
+    MarkerIndicator.astro     # Important time markers
+    FilterBanner.astro        # Spoiler protection status
+    LayoutToggle.astro        # Grid/List view switcher
+    Navbar.astro              # Navigation bar component
   /lib
+    eventsData.ts      # Data loader that merges all season files
+    eventSchema.ts     # Zod schema for type-safe event validation
     urlParams.ts       # Type-safe URL parameter parsing with Zod
+    deltaParser.ts     # Parse and sort events by delta timestamps
   /pages
     index.astro        # Main timeline viewer page (requires filter params)
     filter.astro       # Spoiler filter page (landing page)
+    /event
+      [id].astro       # Individual event detail page
   /styles
-    global.css         # Tailwind CSS imports
+    global.css         # Tailwind CSS and custom styles
 .prettierrc            # Prettier configuration
 .prettierignore        # Prettier ignore patterns
 astro.config.mjs       # Astro configuration (includes Tailwind)
 package.json           # Project dependencies and scripts
+tsconfig.json          # TypeScript configuration
 ```
 
 ### Data File Format
 
-See `/data/events.json` for example structure. Each event includes:
+Event data is organized into season files in `/data/events/` directory. Each season file is a JSON array of event objects.
 
-- UUID (must be valid UUID v4 format)
-- Delta (time offset from time 0, supports negative values for flashbacks)
-- Summary (brief description, max 200 characters)
-- Description (detailed description for event detail view)
-- Array of image paths (must start with `/images/`)
-- Array of tags for flexible categorization (must be `key:value` format)
+Example structure of a season file (`/data/events/season-1.json`):
+
+```json
+[
+  {
+    "id": "f1ac5bd5-a279-45d6-84dd-d7364babf112",
+    "delta": "-2617 days",
+    "summary": "Brief summary shown in timeline cards (max 200 chars)",
+    "description": "Full detailed description shown in event detail view",
+    "images": ["/images/event_003_01.jpg"],
+    "tags": ["season:1", "episode:3", "location:Hospital"]
+  }
+]
+```
+
+Each event includes:
+
+- **id**: UUID (must be valid UUID v4 format)
+- **delta**: Time offset from time 0 (supports negative values for flashbacks)
+- **summary**: Brief description (max 200 characters, shown in timeline cards)
+- **description**: Detailed description (shown in event detail view)
+- **images**: Array of image paths (must start with `/images/`)
+- **tags**: Array of tags for categorization (must be `key:value` format)
 
 ### Schema Validation
 
@@ -124,13 +161,14 @@ The data structure is enforced by JSON Schema (`/data/events.schema.json`):
 
 ### Data Management
 
-event records are managed by editing `/data/events.json`:
+Event records are managed by editing season files in `/data/events/`:
 
-- Edit JSON file directly or use local tools
+- Edit season files directly (e.g., `/data/events/season-1.json`, `/data/events/season-2.json`)
+- Each file contains a JSON array of event objects
 - UUIDs should be generated when creating new events (use UUID v4)
-- Run `bun run validate` to check data against schema before committing
+- Run `bun run validate` to check all season files against schema before committing
 - After editing, commit and push to trigger rebuild
-- Future enhancement: Admin interface could be added as a separate tool
+- To add a new season: create `season-N.json` and add it to `/src/lib/eventsData.ts`
 
 **Important:** Always validate data before committing to ensure it matches the schema. Invalid data will cause builds to fail.
 

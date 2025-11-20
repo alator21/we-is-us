@@ -1,4 +1,4 @@
-import eventsData from '../../data/events.json';
+import { eventsData } from './eventsData';
 
 // Helper function to extract tag value
 function getTagValue(tags: string[], key: string): string | null {

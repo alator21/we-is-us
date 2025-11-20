@@ -1,6 +1,5 @@
 ---
-import eventsDataRaw from '../../../data/events.json';
-import { eventsDataSchema } from '../../lib/eventSchema';
+import { eventsData } from '../../lib/eventsData';
 import Navbar from '../../components/Navbar.astro';
 import BackButton from '../../components/BackButton.astro';
 import EventDetailCard from '../../components/EventDetailCard.astro';
@@ -8,9 +7,6 @@ import EventNavigation from '../../components/EventNavigation.astro';
 import { sortEventsByDelta } from '../../lib/deltaParser';
 import { ClientRouter } from 'astro:transitions';
 import '../../styles/global.css';
-
-// Parse and validate event data through Zod schema
-const eventsData = eventsDataSchema.parse(eventsDataRaw);
 
 // Get the event ID from the URL
 const { id } = Astro.params;
