@@ -1,3 +1,10 @@
+---
+import EpisodeCountdown from './EpisodeCountdown.astro';
+import { nextEpisode, hasUpcomingEpisode } from '../config/nextEpisode';
+
+const showCountdown = hasUpcomingEpisode();
+---
+
 <!-- Navbar -->
 <nav class="bg-white shadow-sm border-b border-gray-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -8,12 +15,19 @@
       >
         We Is Us
       </a>
-      <a
-        href="/about"
-        class="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
-      >
-        About
-      </a>
+      <div class="flex items-center gap-4">
+        {
+          showCountdown && nextEpisode.airDate && (
+            <EpisodeCountdown targetDate={nextEpisode.airDate} episodeNumber={nextEpisode.episodeNumber} />
+          )
+        }
+        <a
+          href="/about"
+          class="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+        >
+          About
+        </a>
+      </div>
     </div>
   </div>
 </nav>
