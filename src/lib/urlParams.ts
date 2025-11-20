@@ -27,10 +27,8 @@ const filterParamsSchema = z
       .nullable()
       .transform((val) => {
         if (!val) return [];
-        return val
-          .split(',')
-          .map((idx) => parseInt(idx, 10))
-          .filter((idx) => !isNaN(idx) && idx >= 0);
+        // Parse comma-separated UUIDs
+        return val.split(',').filter((id) => id.trim().length > 0);
       }),
     layout: z
       .string()

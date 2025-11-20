@@ -28,8 +28,8 @@ const maxSeason = showAll ? 999 : filterParams.season || 0;
 const maxEpisode = showAll ? 999 : filterParams.episode || 0;
 const layout = filterParams.layout || 'list';
 
-// Get list of revealed event indices from validated params
-const revealedIndices = new Set(filterParams.reveal || []);
+// Get list of revealed event IDs from validated params
+const revealedIds = new Set(filterParams.reveal || []);
 
 // Helper to build URL with current params
 function buildUrl(overrides: Record<string, string> = {}): string {
@@ -40,13 +40,8 @@ function buildUrl(overrides: Record<string, string> = {}): string {
     params.set('season', maxSeason.toString());
     params.set('episode', maxEpisode.toString());
   }
-  if (revealedIndices.size > 0) {
-    params.set(
-      'reveal',
-      Array.from(revealedIndices)
-        .sort((a, b) => a - b)
-        .join(',')
-    );
+  if (revealedIds.size > 0) {
+    params.set('reveal', Array.from(revealedIds).join(','));
   }
   params.set('layout', layout);
 
@@ -157,7 +152,7 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
             const isFirstEvent = index === 0;
 
             // Check if this specific event is revealed
-            const isRevealed = revealedIndices.has(index);
+            const isRevealed = revealedIds.has(event.id);
             const shouldBlur = event.isSpoiler && !isRevealed;
 
             // Check if this event has a marker tag (important time moment)
@@ -173,11 +168,9 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
               : null;
 
             // Build URL for revealing this event
-            const newRevealSet = new Set(revealedIndices);
-            newRevealSet.add(index);
-            const revealList = Array.from(newRevealSet)
-              .sort((a, b) => a - b)
-              .join(',');
+            const newRevealSet = new Set(revealedIds);
+            newRevealSet.add(event.id);
+            const revealList = Array.from(newRevealSet).join(',');
             const revealUrl = buildUrl({ reveal: revealList }) + `#event-${index}`;
 
             const GridCard = shouldBlur ? 'div' : 'a';
