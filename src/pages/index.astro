@@ -8,6 +8,7 @@ import FirstEventIndicator from '../components/FirstEventIndicator.astro';
 import MarkerIndicator from '../components/MarkerIndicator.astro';
 import FilterBanner from '../components/FilterBanner.astro';
 import LayoutToggle from '../components/LayoutToggle.astro';
+import GridConnections from '../components/GridConnections.astro';
 import { parseFilterParams, hasFilterParams } from '../lib/urlParams';
 import { sortEventsByDelta, calculateTimeDiff } from '../lib/deltaParser';
 import { ClientRouter } from 'astro:transitions';
@@ -111,13 +112,15 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
       <FilterBanner showAll={showAll} maxSeason={maxSeason} maxEpisode={maxEpisode} />
 
       <!-- Events List -->
-      <div
-        class:list={[
-          layout === 'grid'
-            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
-            : 'flex flex-col',
-        ]}
-      >
+      <div class:list={[layout === 'grid' ? 'relative' : '']}>
+        {layout === 'grid' && <GridConnections />}
+        <div
+          class:list={[
+            layout === 'grid'
+              ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 relative z-10'
+              : 'flex flex-col',
+          ]}
+        >
         {
           sortedEvents.map((event, index) => {
             // Calculate time diff from previous event
@@ -174,11 +177,13 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
                   revealUrl={revealUrl}
                   markerLabel={markerLabel}
                   markerClass={markerClass}
+                  timeDiff={timeDiff}
                 />
               </>
             );
           })
         }
+        </div>
       </div>
     </main>
   </body>

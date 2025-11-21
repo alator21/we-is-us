@@ -10,9 +10,10 @@ interface Props {
   revealUrl: string;
   markerLabel?: string | null;
   markerClass?: string | null;
+  timeDiff?: string | null;
 }
 
-const { event, index, layout, shouldBlur, eventUrl, revealUrl, markerLabel, markerClass } =
+const { event, index, layout, shouldBlur, eventUrl, revealUrl, markerLabel, markerClass, timeDiff } =
   Astro.props;
 
 // Helper function to extract episode/season from tags
@@ -37,6 +38,22 @@ const CardComponent = shouldBlur ? 'div' : 'a';
         markerClass,
       ]}
     >
+      {timeDiff && index > 0 && timeDiff !== 'same time' && (
+        <div class="mb-3 -mt-1">
+          <div class="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-medium">
+            <span>⏱️</span>
+            <span>{timeDiff}</span>
+          </div>
+        </div>
+      )}
+      {timeDiff && index > 0 && timeDiff === 'same time' && (
+        <div class="mb-3 -mt-1">
+          <div class="inline-flex items-center gap-1 px-2 py-1 bg-amber-50 text-amber-700 rounded-md text-xs font-medium">
+            <span>🔄</span>
+            <span>simultaneous</span>
+          </div>
+        </div>
+      )}
       <div class:list={['flex-1', shouldBlur && 'blur-md select-none pointer-events-none']}>
         <div class="flex justify-between items-start mb-2">
           <h3 class="text-sm font-semibold text-gray-900">
