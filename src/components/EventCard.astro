@@ -13,8 +13,17 @@ interface Props {
   timeDiff?: string | null;
 }
 
-const { event, index, layout, shouldBlur, eventUrl, revealUrl, markerLabel, markerClass, timeDiff } =
-  Astro.props;
+const {
+  event,
+  index,
+  layout,
+  shouldBlur,
+  eventUrl,
+  revealUrl,
+  markerLabel,
+  markerClass,
+  timeDiff,
+} = Astro.props;
 
 // Helper function to extract episode/season from tags
 function getTagValue(tags: string[], key: string): string {

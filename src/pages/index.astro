@@ -121,68 +121,68 @@ const sortedEvents = sortEventsByDelta(eventsWithSpoilerFlag);
               : 'flex flex-col',
           ]}
         >
-        {
-          sortedEvents.map((event, index) => {
-            // Calculate time diff from previous event
-            const timeDiff =
-              index > 0 ? calculateTimeDiff(sortedEvents[index - 1]!.delta, event.delta) : null;
-            const isFirstEvent = index === 0;
+          {
+            sortedEvents.map((event, index) => {
+              // Calculate time diff from previous event
+              const timeDiff =
+                index > 0 ? calculateTimeDiff(sortedEvents[index - 1]!.delta, event.delta) : null;
+              const isFirstEvent = index === 0;
 
-            // Check if this specific event is revealed
-            const isRevealed = revealedIds.has(event.id);
-            const shouldBlur = event.isSpoiler && !isRevealed;
+              // Check if this specific event is revealed
+              const isRevealed = revealedIds.has(event.id);
+              const shouldBlur = event.isSpoiler && !isRevealed;
 
-            // Check if this event has a marker tag (important time moment)
-            const markerTag = event.tags.find((tag: string) => tag.startsWith('marker:'));
-            const markerLabel = markerTag ? markerTag.split(':')[1]?.trim() : null;
+              // Check if this event has a marker tag (important time moment)
+              const markerTag = event.tags.find((tag: string) => tag.startsWith('marker:'));
+              const markerLabel = markerTag ? markerTag.split(':')[1]?.trim() : null;
 
-            // Convert marker label to CSS-friendly class name
-            const markerClass = markerLabel
-              ? `marker-${markerLabel
-                  .toLowerCase()
-                  .replace(/[^a-z0-9]+/g, '-')
-                  .replace(/^-+|-+$/g, '')}`
-              : null;
+              // Convert marker label to CSS-friendly class name
+              const markerClass = markerLabel
+                ? `marker-${markerLabel
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/^-+|-+$/g, '')}`
+                : null;
 
-            // Build URL for revealing this event
-            const newRevealSet = new Set(revealedIds);
-            newRevealSet.add(event.id);
-            const revealList = Array.from(newRevealSet).join(',');
-            const revealUrl = buildUrl({ reveal: revealList }) + `#event-${index}`;
+              // Build URL for revealing this event
+              const newRevealSet = new Set(revealedIds);
+              newRevealSet.add(event.id);
+              const revealList = Array.from(newRevealSet).join(',');
+              const revealUrl = buildUrl({ reveal: revealList }) + `#event-${index}`;
 
-            const eventUrl = `/event/${event.id}${Astro.url.search}`;
+              const eventUrl = `/event/${event.id}${Astro.url.search}`;
 
-            return (
-              <>
-                {/* Time progression indicator (list view only) */}
-                {layout === 'list' && !isFirstEvent && (
-                  <TimeProgressionIndicator timeDiff={timeDiff} />
-                )}
+              return (
+                <>
+                  {/* Time progression indicator (list view only) */}
+                  {layout === 'list' && !isFirstEvent && (
+                    <TimeProgressionIndicator timeDiff={timeDiff} />
+                  )}
 
-                {/* First event indicator (list view only) */}
-                {layout === 'list' && isFirstEvent && <FirstEventIndicator delta={event.delta} />}
+                  {/* First event indicator (list view only) */}
+                  {layout === 'list' && isFirstEvent && <FirstEventIndicator delta={event.delta} />}
 
-                {/* Time marker indicator (list view only) */}
-                {layout === 'list' && markerLabel && !isFirstEvent && (
-                  <MarkerIndicator markerLabel={markerLabel} markerClass={markerClass} />
-                )}
+                  {/* Time marker indicator (list view only) */}
+                  {layout === 'list' && markerLabel && !isFirstEvent && (
+                    <MarkerIndicator markerLabel={markerLabel} markerClass={markerClass} />
+                  )}
 
-                {/* Event card */}
-                <EventCard
-                  event={event}
-                  index={index}
-                  layout={layout}
-                  shouldBlur={shouldBlur}
-                  eventUrl={eventUrl}
-                  revealUrl={revealUrl}
-                  markerLabel={markerLabel}
-                  markerClass={markerClass}
-                  timeDiff={timeDiff}
-                />
-              </>
-            );
-          })
-        }
+                  {/* Event card */}
+                  <EventCard
+                    event={event}
+                    index={index}
+                    layout={layout}
+                    shouldBlur={shouldBlur}
+                    eventUrl={eventUrl}
+                    revealUrl={revealUrl}
+                    markerLabel={markerLabel}
+                    markerClass={markerClass}
+                    timeDiff={timeDiff}
+                  />
+                </>
+              );
+            })
+          }
         </div>
       </div>
     </main>
