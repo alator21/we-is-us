@@ -5,8 +5,8 @@
 
 export const nextEpisode = {
   // Set to null when there are no upcoming episodes
-  airDate: '2026-01-24T02:00:00Z', // ISO 8601 format (UTC time)
-  episodeNumber: 'S1E7', // Optional episode identifier
+  airDate: '2025-11-26T05:00:00Z', // ISO 8601 format (UTC time)
+  episodeNumber: 'S1E5', // Optional episode identifier
 };
 
 // Helper to check if countdown should be shown
